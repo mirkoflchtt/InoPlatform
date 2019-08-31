@@ -1,0 +1,81 @@
+##########################################
+# Syntax Coloring Map For InoPlatform lib.
+##########################################
+
+##########################################
+# Datatypes (KEYWORD1)
+##########################################
+
+ino						KEYWORD1
+rtime_t					KEYWORD1
+rtime_diff_t			KEYWORD1
+
+firmware_id		KEYWORD1
+
+clock_ts                KEYWORD1
+delay_ts                KEYWORD1
+
+Comm					KEYWORD1
+
+OTA						KEYWORD1
+
+PinOut					KEYWORD1
+
+SensorTemperature		KEYWORD1
+
+AdvButton				KEYWORD1
+StdButton				KEYWORD1
+StdButtonEvent			KEYWORD1
+
+BlindEventFunc					KEYWORD1
+OnUpdateTemperatureCallback		KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+getFirmwareVersion		KEYWORD2
+
+functionType			KEYWORD2
+functionReadPin			KEYWORD2
+
+readStdButtonFunc		KEYWORD2
+
+check					KEYWORD2
+getPressTime			KEYWORD2
+
+generateLFSRSequence	KEYWORD2
+testLFSR				KEYWORD2
+
+crc16_CCITT				KEYWORD2
+fletcher16				KEYWORD2
+fletcher32				KEYWORD2
+
+high					KEYWORD2					
+blink					KEYWORD2
+toggle					KEYWORD2
+
+connected				KEYWORD2
+init					KEYWORD2
+loop					KEYWORD2
+
+trigger					KEYWORD2
+
+wait_ms					KEYWORD2
+wait_us					KEYWORD2
+clock_ms				KEYWORD2
+clock_us				KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+INO_FIRMWARE_SIGNATURE	LITERAL1
+INO_FIRMWARE_GET	LITERAL1
+
+DEFAULT_LONGPRESS_MSEC	LITERAL1
+EV_NONE					LITERAL1
+EV_SHORTPRESS			LITERAL1
+EV_LONGPRESS			LITERAL1
+EV_TIMEOUT				LITERAL1
