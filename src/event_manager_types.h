@@ -19,11 +19,8 @@ typedef struct event_t_ {
   /*! Event code. */
   event_code_t      code;
 
-  /*! Parameter passed by the event to the listener. */
-  event_param_t     param;
-
-  /*! Opaque handle passed by the event to the listener. */
-  event_handle_t    handle;
+  /*! Opaque cookie handle passed by the event to the listener. */
+  event_handle_t    cookie;
 
   /*! Timestamp when the event was generated. */
   event_time_t      timestamp;

@@ -9,7 +9,8 @@
  * A dummy listener func called when no listener is set
  */
 static inline
-void dummy_listener(const event_t* event)
+void dummy_listener(
+  const event_t* event)
 {
   (void)(event);
 }
@@ -23,13 +24,15 @@ void dummy_listener(const event_t* event)
  */
 
 static inline
-void _queue_init(event_queue_t *queue)
+void _queue_init(
+  event_queue_t *queue)
 {
   queue->head = queue->tail = ~0x0;
 }
 
 static inline
-uint32_t _queue_size(const event_queue_t *queue)
+uint32_t _queue_size(
+  const event_queue_t *queue)
 {
   INO_ASSERT( queue )
   const bool wrap_around = ( queue->tail<queue->head );
@@ -56,7 +59,8 @@ uint32_t _queue_size(const event_queue_t *queue)
  */
 
 static inline
-bool _queue_is_empty(const event_queue_t *queue)
+bool _queue_is_empty(
+  const event_queue_t *queue)
 {
   return ( queue->tail==queue->head );
 }
@@ -72,7 +76,8 @@ bool _queue_is_empty(const event_queue_t *queue)
  */
 
 static inline
-bool _queue_is_full(const event_queue_t *queue)
+bool _queue_is_full(
+  const event_queue_t *queue)
 {
   return ( MAX_EVENT_QUEUE_SIZE==_queue_size(queue) );
 }
@@ -87,7 +92,10 @@ bool _queue_is_full(const event_queue_t *queue)
  * \retval #false otherwise
  */
 
-static bool _queue_push_event(event_queue_t *queue, const event_t* event)
+static
+bool _queue_push_event(
+  event_queue_t *queue,
+  const event_t* event)
 {
   INO_ASSERT(queue && event)
   
@@ -119,7 +127,10 @@ static bool _queue_push_event(event_queue_t *queue, const event_t* event)
  * \retval #false otherwise
  */
 
-static bool _queue_pop_event(event_queue_t *queue, event_t* event)
+static
+bool _queue_pop_event(
+  event_queue_t *queue,
+  event_t* event)
 {
   INO_ASSERT(queue && event)
 
@@ -150,7 +161,8 @@ static bool _queue_pop_event(event_queue_t *queue, event_t* event)
 
 static inline
 event_listener_t* _listeners_find_slot(
-  event_listeners_t *listeners, const event_listener_fn_t listener_cb)
+  event_listeners_t *listeners,
+  const event_listener_fn_t listener_cb)
 {
   INO_ASSERT(listeners && listener_cb)
 
@@ -170,8 +182,10 @@ event_listener_t* _listeners_find_slot(
  * \param[in]     listener_cb is the pointer to the listener function that must be registered
  */
 
-static bool _listeners_bind_listener(
-  event_listeners_t *listeners, const event_code_t event_codes,
+static
+bool _listeners_bind_listener(
+  event_listeners_t *listeners,
+  const event_code_t event_codes,
   const event_listener_fn_t listener_cb) 
 {
   INO_ASSERT(listeners)
@@ -199,8 +213,10 @@ static bool _listeners_bind_listener(
  * \param[in]     listener    is the pointer to the listener function that must be registered
  */
 
-static bool _listeners_unbind_listener(
-  event_listeners_t *listeners, const event_listener_fn_t listener_cb) 
+static
+bool _listeners_unbind_listener(
+  event_listeners_t *listeners,
+  const event_listener_fn_t listener_cb) 
 {
   INO_ASSERT(listeners)
 
@@ -226,7 +242,10 @@ static bool _listeners_unbind_listener(
  *
  */
 
-static void _listeners_init(event_listeners_t *listeners, const event_listener_fn_t default_listener)
+static
+void _listeners_init(
+  event_listeners_t *listeners,
+  const event_listener_fn_t default_listener)
 {
   INO_ASSERT(listeners)
 
@@ -252,7 +271,10 @@ static void _listeners_init(event_listeners_t *listeners, const event_listener_f
  * \return the number of listeners contained in \e listeners and associated to the event having code \e event_code
  */
 
-static uint32_t _listeners_send_event(const event_listeners_t *listeners, const event_t* event)
+static
+uint32_t _listeners_send_event(
+  const event_listeners_t *listeners,
+  const event_t* event)
 {
   INO_ASSERT(listeners && event)
   
@@ -290,7 +312,8 @@ static uint32_t _listeners_send_event(const event_listeners_t *listeners, const 
  */
 static
 uint32_t _manager_process_event(
-  event_queue_t *queue, const event_listeners_t *listeners)
+  event_queue_t *queue,
+  const event_listeners_t *listeners)
 {
   INO_ASSERT(queue && listeners)
 
@@ -309,7 +332,9 @@ uint32_t _manager_process_event(
  * \param[in]  default_listener if not #NULL, is the pointer to the default listener function
  */
 
-void event_manager_init(event_manager_t *manager, event_listener_fn_t default_listener)
+void event_manager_init(
+  event_manager_t *manager,
+  const event_listener_fn_t default_listener)
 {
   event_manager_reset(manager);
   
@@ -323,7 +348,8 @@ void event_manager_init(event_manager_t *manager, event_listener_fn_t default_li
  * \param[in,out] manager     is the pointer to the event manager
  *
  */
-void event_manager_reset(event_manager_t *manager)
+void event_manager_reset(
+  event_manager_t *manager)
 {
   INO_ASSERT(manager)
   
@@ -341,7 +367,8 @@ void event_manager_reset(event_manager_t *manager)
  */
 
 bool event_manager_bind_listener(
-  event_manager_t *manager, const event_code_t event_codes,
+  event_manager_t *manager,
+  const event_code_t event_codes,
   const event_listener_fn_t listener)
 { 
   return _listeners_bind_listener(&manager->listeners, event_codes, listener);
@@ -355,7 +382,8 @@ bool event_manager_bind_listener(
  * \param[in]     listener    is the pointer to the listener function that must be registered
  */
 bool event_manager_unbind_listener(
-  event_manager_t *manager, const event_listener_fn_t listener)
+  event_manager_t *manager,
+  const event_listener_fn_t listener)
 {
   return _listeners_unbind_listener(&manager->listeners, listener);
 }
@@ -370,7 +398,9 @@ bool event_manager_unbind_listener(
  * \retval #false otherwise
  */
 
-bool event_manager_queue_is_empty(const event_manager_t *manager, const uint32_t q)
+bool event_manager_queue_is_empty(
+  const event_manager_t *manager,
+  const uint32_t q)
 {
   INO_ASSERT(manager)
   if (q >= NUM_OF_QUEUES)
@@ -390,7 +420,9 @@ bool event_manager_queue_is_empty(const event_manager_t *manager, const uint32_t
  * \retval #false otherwise
  */
 
-bool event_manager_queue_is_full(const event_manager_t *manager, const uint32_t q)
+bool event_manager_queue_is_full(
+  const event_manager_t *manager,
+  const uint32_t q)
 {
   INO_ASSERT(manager)
   if (q >= NUM_OF_QUEUES)
@@ -409,7 +441,9 @@ bool event_manager_queue_is_full(const event_manager_t *manager, const uint32_t 
  * \return the number of events contained in queue having index \e q of event manager \e event_manager
  */
 
-uint32_t event_manager_get_num_of_events(const event_manager_t *manager, const uint32_t q)
+uint32_t event_manager_get_num_of_events(
+  const event_manager_t *manager,
+  const uint32_t q)
 {
   INO_ASSERT(manager)
   if (q >= NUM_OF_QUEUES)
@@ -430,7 +464,10 @@ uint32_t event_manager_get_num_of_events(const event_manager_t *manager, const u
  * \retval #false otherwise
  */
 
-bool event_manager_push_event(event_manager_t *manager, const uint32_t q, const event_t* event)
+bool event_manager_push_event(
+  event_manager_t *manager,
+  const uint32_t q,
+  const event_t* event)
 {
   INO_ASSERT(manager && event)
 
@@ -455,7 +492,9 @@ bool event_manager_push_event(event_manager_t *manager, const uint32_t q, const 
  * \return the number of listeners contained in \e manager and associated to the event having code \e event_code
  */
 
-uint32_t event_manager_pop_event(event_manager_t *manager, const uint32_t q)
+uint32_t event_manager_pop_event(
+  event_manager_t *manager,
+  const uint32_t q)
 {
   INO_ASSERT( manager )
 
@@ -474,7 +513,9 @@ uint32_t event_manager_pop_event(event_manager_t *manager, const uint32_t q)
  * \param[in] higher_priority_only is a flag for flushing all events from 1st higher priority queue
  * \return the number of listeners contained in \e manager and associated to the event having code \e event_code
  */
-uint32_t event_manager_flush(event_manager_t *manager, const bool higher_priority_only )
+uint32_t event_manager_flush(
+  event_manager_t *manager,
+  const bool higher_priority_only)
 {
   uint32_t count = 0;
 
@@ -484,14 +525,14 @@ uint32_t event_manager_flush(event_manager_t *manager, const bool higher_priorit
   for ( int32_t q=HIGHER_PRIORITY_QUEUE; q<=LOWER_PRIORITY_QUEUE; q++ )
 #endif
   {
-      uint32_t processed;
-      while ( (processed = _manager_process_event(&manager->queue[q], &manager->listeners))>0 ) {
-        count += processed;
-      }
+    uint32_t processed;
+    while ( (processed = _manager_process_event(&manager->queue[q], &manager->listeners))>0 ) {
+      count += processed;
+    }
       
-      if ( higher_priority_only && (count>0) ) {
-        break;
-      }
+    if ( higher_priority_only && (count>0) ) {
+      break;
+    }
   }
   
   return count;

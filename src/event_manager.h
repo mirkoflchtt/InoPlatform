@@ -91,7 +91,8 @@ extern "C" {
 
 /*! initialize an event manager */
 void event_manager_init(
-  event_manager_t *manager, event_listener_fn_t default_listener);
+  event_manager_t *manager,
+  const event_listener_fn_t default_listener);
 
 /*! reset an event manager without processing queues */
 void event_manager_reset(
@@ -100,31 +101,39 @@ void event_manager_reset(
 /*! bind a listener to an event manager */
 bool event_manager_bind_listener(
   event_manager_t *manager,
-  const event_code_t event_codes, const event_listener_fn_t listener);
+  const event_code_t event_codes,
+  const event_listener_fn_t listener);
 
 /*! unbind a listener to an event manager */
 bool event_manager_unbind_listener(
-  event_manager_t *manager, const event_listener_fn_t listener);
+  event_manager_t *manager,
+  const event_listener_fn_t listener);
 
 /*! check if one of the event queues of an event manager is empty */
 bool event_manager_queue_is_empty(
-  const event_manager_t *manager, const uint32_t q);
+  const event_manager_t *manager,
+  const uint32_t q);
 
 /*! check if one of the event queues of an event manager is full */
 bool event_manager_queue_is_full(
-  const event_manager_t *manager, const uint32_t q);
+  const event_manager_t *manager,
+  const uint32_t q);
 
 /*! get the number of events contained in one of the event queues of an event manager */
 uint32_t event_manager_get_num_of_events(
-  const event_manager_t *manager, const uint32_t q);
+  const event_manager_t *manager,
+  const uint32_t q);
 
 /*! push an event to one of the event queues of an event manager */
 bool event_manager_push_event(
-  event_manager_t *manager, const uint32_t q, const event_t* event);
+  event_manager_t *manager,
+  const uint32_t q,
+  const event_t* event);
 
 /*! pop the first event contained in one of the event queues of an event manager */
 uint32_t event_manager_pop_event(
-  event_manager_t *manager, const uint32_t q);
+  event_manager_t *manager,
+  const uint32_t q);
 
 /*!
  * Process all the event queues present within event manager.
@@ -132,7 +141,8 @@ uint32_t event_manager_pop_event(
  * priority queue found 
  */
 uint32_t event_manager_flush(
-  event_manager_t *manager, const bool higher_priority_only);
+  event_manager_t *manager,
+  const bool higher_priority_only);
 
 #ifdef __cplusplus
 }
