@@ -1,8 +1,10 @@
 #ifndef __INO_LOG_H__
 #define __INO_LOG_H__
+#ifndef HAS_X86
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <PubSubClient.h>
+#endif
 #include <stdarg.h>
 
 #include "InoMyConfig.h"
@@ -90,6 +92,7 @@ void logSetQuiet(
 void logSetLevel(
   const LogLevel level);
 
+#ifndef HAS_X86
 void logMqttEnable(
   PubSubClient* mqtt, const char* mqtt_topic);
 
@@ -99,6 +102,7 @@ void logStreamEnable(
   Stream* stream);
 
 void logStreamDisable(void);
+#endif
 
 uint32_t logMsg(
   const LogLevel level,

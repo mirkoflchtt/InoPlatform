@@ -58,10 +58,11 @@ static struct {
   .quiet        = false, 
 };
 
-
+#ifdef LOG_HAS_FILE_OUT
 static const char *level_names[] = {
   "SUDO ", "FATAL", "ERROR", "WARN ", "INFO ", "DEBUG", "TRACE",
 };
+#endif
 
 #ifdef LOG_USE_COLOR
 static const char *level_colors[] = {

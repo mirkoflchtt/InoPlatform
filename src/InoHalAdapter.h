@@ -85,7 +85,17 @@ static volatile uint32_t g_interrupt_state = 0x0;
     g_interrupt_state = SREG;     /* save interrupt enable/disable state */
     cli();                        /* disable the global interrupt */
   }
-    
+
+#elif defined( HAS_X86 )
+  static inline
+  void enable_interrupts(void)
+  {
+  }
+
+  static inline
+  void disable_interrupts(void)
+  {
+  }
 #else
 
 #error "Unknown microcontroller:  Need to implement class SuppressInterrupts for this microcontroller."

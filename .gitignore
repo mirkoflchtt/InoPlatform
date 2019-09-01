@@ -1,0 +1,6 @@
+# Temp building directories
+build
+build-mingw
+
+# Install paths
+install
