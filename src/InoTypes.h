@@ -52,6 +52,9 @@
 #define INO_PTR(ptr)            ((ino_ptr)(ptr))
 
 /******************************************************************************/
+#define INO_ARRAY_COUNT(array_) \
+  ( sizeof(array_)/sizeof((array_)[0]) )
+
 #define INO_STATIC_TYPE_ARRAY_DECLARE(type_, size_, ...) \
   (type_[size_]) { ##__VA_ARGS__ } 
 
@@ -85,6 +88,7 @@ typedef void*           handle;
 typedef void*           ino_handle;
 typedef uint8_t*        ino_ptr;
 typedef const uint8_t*  ino_ptr_const;
+typedef uintptr_t       ino_uptr;
 
 typedef bool            ino_bool;
 typedef float           ino_float;
