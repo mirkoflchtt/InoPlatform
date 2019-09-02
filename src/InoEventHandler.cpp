@@ -83,6 +83,7 @@ m_state(0x0)
 EventHandler::~EventHandler(void)
 {
   event_manager_flush(&m_manager, false);
+  m_timer_low.detach();
 }
 
 bool EventHandler::pushEvent(
@@ -137,7 +138,7 @@ bool EventHandler::init(
   listener_handle_t listener_cookie)
 {
   event_manager_init(&m_manager, default_listener, listener_cookie);
-  m_timer_low.attach(INO_HANDLER_TIMER_INTERVAL_MS*0.001f, timerCB);
+  m_timer_low.attach_ms(INO_HANDLER_TIMER_INTERVAL_MS, timerCB);
   return true;
 }
 
