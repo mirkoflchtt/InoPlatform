@@ -7,7 +7,6 @@
 
 /***** events *****************************************************************/
 typedef uint32_t        event_code_t;
-typedef uint32_t        event_param_t;
 typedef void*           event_handle_t;
 typedef uint32_t        event_time_t;
 
@@ -27,8 +26,10 @@ typedef struct event_t_ {
 } event_t;
 
 /***** event listeners ********************************************************/
+typedef void*           listener_handle_t;
 
 /*! Type for an event listener (a.k.a. callback function). */
-typedef void (*event_listener_fn_t)(const event_t* event);
+typedef void (*event_listener_fn_t)(
+  const event_t* event, listener_handle_t cookie);
 
 #endif    /*__EVENT_MANAGER_TYPES_H*/

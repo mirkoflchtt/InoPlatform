@@ -57,6 +57,7 @@ typedef struct event_listener_t_ {
 
   /*! Listener function. */
   event_listener_fn_t callback;
+  listener_handle_t   cookie;
 } event_listener_t;
 
 /*!
@@ -92,7 +93,8 @@ extern "C" {
 /*! initialize an event manager */
 void event_manager_init(
   event_manager_t *manager,
-  const event_listener_fn_t default_listener);
+  const event_listener_fn_t default_listener,
+  listener_handle_t listener_cookie);
 
 /*! reset an event manager without processing queues */
 void event_manager_reset(
@@ -102,7 +104,8 @@ void event_manager_reset(
 bool event_manager_bind_listener(
   event_manager_t *manager,
   const event_code_t event_codes,
-  const event_listener_fn_t listener);
+  const event_listener_fn_t listener,
+  listener_handle_t listener_cookie);
 
 /*! unbind a listener to an event manager */
 bool event_manager_unbind_listener(

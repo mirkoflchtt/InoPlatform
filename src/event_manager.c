@@ -10,9 +10,11 @@
  */
 static inline
 void dummy_listener(
-  const event_t* event)
+  const event_t* event,
+  listener_handle_t cookie)
 {
   (void)(event);
+  (void)(cookie);
 }
 
 /***** event queues ***********************************************************/
@@ -186,7 +188,8 @@ static
 bool _listeners_bind_listener(
   event_listeners_t *listeners,
   const event_code_t event_codes,
-  const event_listener_fn_t listener_cb) 
+  const event_listener_fn_t listener_cb,
+  listener_handle_t listener_cookie) 
 {
   INO_ASSERT(listeners)
 
@@ -201,6 +204,7 @@ bool _listeners_bind_listener(
 
   l->event_codes = event_codes;
   l->callback    = listener_cb;
+  l->cookie      = listener_cookie;
   listeners->num++;
   
   return true;
@@ -227,6 +231,7 @@ bool _listeners_unbind_listener(
 
   l->event_codes  = 0x0;
   l->callback     = dummy_listener;
+  l->cookie       = NULL;
   listeners->num--;
 
   return true;
@@ -245,7 +250,8 @@ bool _listeners_unbind_listener(
 static
 void _listeners_init(
   event_listeners_t *listeners,
-  const event_listener_fn_t default_listener)
+  const event_listener_fn_t default_listener,
+  listener_handle_t listener_cookie)
 {
   INO_ASSERT(listeners)
 
@@ -253,11 +259,13 @@ void _listeners_init(
   for ( uint32_t i=0; i<= MAX_NUM_OF_LISTENERS; i++) {
     listeners->listener[i].event_codes = 0x0;
     listeners->listener[i].callback    = dummy_listener;
+    listeners->listener[i].cookie      = listener_cookie;
   }
 
   /* Bind default listener on reserved slot 0 */
   listeners->listener[0].callback = 
     (default_listener) ? default_listener : dummy_listener;
+  listeners->listener[0].cookie = (listener_cookie) ? listener_cookie : NULL;
   listeners->num++;
 }
 
@@ -286,7 +294,7 @@ uint32_t _listeners_send_event(
     INO_ASSERT(l->callback)
     INO_ASSERT(l->callback!=dummy_listener)
     if ( trigger ) {
-      l->callback(event);
+      l->callback(event, l->cookie);
       count++;
     }
   }
@@ -295,7 +303,7 @@ uint32_t _listeners_send_event(
     const event_listener_t *l = &listeners->listener[0];
     INO_ASSERT(l->callback)
 
-    l->callback(event);
+    l->callback(event, l->cookie);
     count += (l->callback!=dummy_listener);
   }
 
@@ -334,11 +342,12 @@ uint32_t _manager_process_event(
 
 void event_manager_init(
   event_manager_t *manager,
-  const event_listener_fn_t default_listener)
+  const event_listener_fn_t default_listener,
+  listener_handle_t listener_cookie)
 {
   event_manager_reset(manager);
   
-  _listeners_init(&(manager->listeners), default_listener);
+  _listeners_init(&(manager->listeners), default_listener, listener_cookie);
 }
 
 
@@ -369,9 +378,11 @@ void event_manager_reset(
 bool event_manager_bind_listener(
   event_manager_t *manager,
   const event_code_t event_codes,
-  const event_listener_fn_t listener)
+  const event_listener_fn_t listener,
+  listener_handle_t listener_cookie)
 { 
-  return _listeners_bind_listener(&manager->listeners, event_codes, listener);
+  return _listeners_bind_listener(
+    &manager->listeners, event_codes, listener, listener_cookie);
 }
 
 
