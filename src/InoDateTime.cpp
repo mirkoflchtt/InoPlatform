@@ -18,7 +18,7 @@ String printDateTime(const ino::datetime_ts ts)
 
 DateTime::DateTime(void) :
 m_base_ms(0),
-m_last_ts(ino::clock_ms()),
+m_last_ts(clock_ms()),
 m_epoch_ts(0),
 m_timezone(0)
 {
@@ -38,8 +38,8 @@ uint32_t DateTime::epoch_ts(void)
 
 void DateTime::handle_overflow(void)
 {
-  const clock_ts ts = ino::clock_ms();
-  if ( m_last_ts>ts ) {
+  const clock_ts ts = clock_ms();
+  if ( ts<m_last_ts ) {
     m_base_ms += 1;
     m_base_ms += CLOCK_MAX_VALUE;
     INO_LOG_DEBUG("DateTime::handle_overflow detected: " DATETIME_FMT, m_base_ms);
@@ -49,7 +49,7 @@ void DateTime::handle_overflow(void)
 
 void DateTime::set_base_ts(const datetime_ts base_ms, const int8_t timezone)
 {
-  const clock_ts ts = ino::clock_ms();
+  const clock_ts ts = clock_ms();
   const datetime_ts offset = (datetime_ts)timezone * MSEC_IN_A_HOUR - ts;
   
   m_timezone = timezone;

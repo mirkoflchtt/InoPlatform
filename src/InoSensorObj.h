@@ -22,7 +22,7 @@ protected:
   rtime_t         m_interval;
   /* 8 MSB bits are reserved flags */
   uint32_t        m_state;
-  clock_ts        m_next_ts;
+  clock_ts        m_last_ts;
 };
 
 INO_NAMESPACE_END

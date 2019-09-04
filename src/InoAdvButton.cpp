@@ -37,7 +37,7 @@ AdvButton::AdvButton(
   const uint16_t repeat,
   const uint16_t startDelay) :
 m_funcReadPin(NULL),
-m_lastChange(ino::clock_ms()),
+m_lastChange(clock_ms()),
 m_offState(offState),
 m_lastState(offState),
 m_debounceTime(100)
@@ -60,11 +60,13 @@ void AdvButton::check(void)
   /* button state changed */
   if ( m_lastState!=cur )
   {
-    if ( ino::clock_ms()<m_lastChange+m_debounceTime ) {
+    const clock_ts ts = clock_ms();
+    //if ( ts<m_lastChange+m_debounceTime ) {
+    if ( !trigger_event(ts, m_lastChange, m_debounceTime) ) {
       return;
     }
       
-    m_lastChange = ino::clock_ms();
+    m_lastChange = ts;
     m_lastState  = cur; 
   }
 
@@ -83,7 +85,7 @@ void AdvButton::check(void)
     // the button is pressed, but last time we checked, was the button still up?    
     if ( m_startPress==0 ) {
       /* mark the start time and notify others */
-      m_startPress = ino::clock_ms();
+      m_startPress = clock_ms();
       if ( m_funcKeyDown ) {
         m_funcKeyDown(this);
       }
@@ -95,25 +97,27 @@ void AdvButton::check(void)
     /* is repeating enabled? */
     if ( (m_repeat>0) && (m_funcKeyPress) )
     {
+      const clock_ts ts = clock_ms();
       /* is the startdelay passed? */
-      if ( ino::clock_ms()>=m_startPress+m_startDelay )
-      {
+      //if ( ts>=m_startPress+m_startDelay ) {
+      if ( trigger_event(ts, m_startPress, m_startDelay) ) {
         /* is it time for a keypressed call? */
-        if ( ino::clock_ms()>m_prevPres+m_repeat ) {
-          m_prevPres = ino::clock_ms();   
+        //if ( ts>m_prevPres+m_repeat ) {
+        if ( trigger_event(ts, m_prevPres, m_repeat) ) {
+          m_prevPres = ts;   
           m_funcKeyPress(this);   
         }
       }
       else {
-        m_prevPres = ino::clock_ms();
+        m_prevPres = ts;
       }
     }
   }
 }
 
-ino::clock_ts AdvButton::getPressTime(void)
+delay_ts AdvButton::getPressTime(void)
 {
-  return ( ino::clock_ms()-m_startPress );
+  return elapsed_ms(clock_ms(), m_startPress);
 }
 
 void AdvButton::setOnKeyPress(void (*f)(AdvButton*))

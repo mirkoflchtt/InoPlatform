@@ -98,7 +98,7 @@ public:
   /* 
   Retrieve the amount of milliseconds the button was pressed,  only valid in keyevents
   */
-  ino::clock_ts getPressTime( void );
+  ino::delay_ts getPressTime( void );
   
 private: 
   /* event callbacks */

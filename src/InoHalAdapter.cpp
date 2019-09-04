@@ -38,6 +38,27 @@ private:
 
 INO_API_DECLARE
 
+ino_u8 trigger_event(
+  const clock_ts ts,
+  const clock_ts last_ts,
+  const delay_ts interval_ts)
+{
+  const clock_ts next_ts = last_ts + interval_ts;
+  const ino_u8 mask = (ts>=next_ts)|((next_ts<last_ts)<<1)|((ts<last_ts)<<2);
+  const ino_u8 out  = (mask & 0xFE) ? ((mask==0x4)|(mask==0x7)) : mask;
+
+  //printf("  ## mask(0x%02x) -> %d\n", mask, out);
+  return out;
+}
+
+delay_ts elapsed_ms(
+  const delay_ts ts,
+  const delay_ts last_ts)
+{
+  // return (ts-last_ts);
+  return (ts<last_ts) ? ((~0x0U)-last_ts)+ts : (ts-last_ts);
+}
+
 clock_ts clock_ms(void)
 {
   static Millis s_clock(0);

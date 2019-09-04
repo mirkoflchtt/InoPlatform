@@ -30,7 +30,10 @@ String getFirmwareVersion(const firmware_id fw)
   uint16_t year=0, month=0, day=0, hour=0, min=0, minor=0; 
   
   INO_FIRMWARE_GET(fw, year, month, day, hour, min, minor)
-  
+  //firmware.concat(String("Platform-"));
+  firmware.concat(String(INO_PLATFORM_MAJOR));  firmware.concat(F("."));
+  firmware.concat(String(INO_PLATFORM_MINOR));  firmware.concat(F("."));
+  firmware.concat(String(INO_PLATFORM_MICRO));  firmware.concat(F("-"));
   firmware.concat(String(year));  firmware.concat(F("-"));
   firmware.concat(String(month)); firmware.concat(F("-"));
   firmware.concat(String(day));   firmware.concat(F("-"));

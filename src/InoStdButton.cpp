@@ -30,22 +30,27 @@ m_read_func((func) ? func : &defaultStdReadFunc)
 
 StdButtonEvent StdButton::check(void)
 {
-  const bool now_pressed  = m_read_func(m_pin);
-  StdButtonEvent event    = EV_NONE;
-  const clock_ts  _now    = clock_ms();
+  const bool now_pressed = m_read_func(m_pin);
+  StdButtonEvent event   = EV_NONE;
+  const clock_ts  ts     = clock_ms();
   
   // button was released
   if ( !now_pressed && m_was_pressed ) {
     // handle release button event
-    if ( _now>=m_pressed_start+m_debounce_msec ) {
-      event = (_now<m_pressed_start+m_longpress_msec) ? (EV_SHORTPRESS) : ((_now<m_pressed_start+m_timeout_msec) ? EV_LONGPRESS : EV_TIMEOUT);
+    //if ( ts>=m_pressed_start+m_debounce_msec ) {
+    if ( trigger_event(ts, m_pressed_start, m_debounce_msec) ) {
+      //event = (ts<m_pressed_start+m_longpress_msec) ? (EV_SHORTPRESS) : ((ts<m_pressed_start+m_timeout_msec) ? EV_LONGPRESS : EV_TIMEOUT);
+      event = trigger_event(ts, m_pressed_start, m_longpress_msec) \
+        ? (trigger_event(ts, m_pressed_start, m_timeout_msec) \
+          ? EV_TIMEOUT : EV_LONGPRESS) \
+        : (EV_SHORTPRESS);
     }
     m_pressed_start = 0;
   }
 
   // update press 1st time the button is pressed
   else if ( !m_was_pressed && now_pressed ) {
-    m_pressed_start = _now;
+    m_pressed_start = ts;
   }
   
   // remember state, and we're done

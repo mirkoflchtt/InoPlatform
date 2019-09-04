@@ -13,7 +13,7 @@ m_pin(pin),
 m_type(type),
 m_interval(interval),
 m_state(0x0),
-m_next_ts(ino::clock_ms())
+m_last_ts(clock_ms())
 {
   m_state |= (interval>0) ? STATE_ENABLE : 0x0;
 }
@@ -25,8 +25,9 @@ bool SensorObj::trigger(const bool auto_rearm)
     return false;
   }
 
-  const clock_ts now_ = ino::clock_ms();
-  if (now_ < m_next_ts) {
+  const clock_ts ts = clock_ms();
+  //if (ts < m_last_ts+m_interval) {
+  if ( !trigger_event(ts, m_last_ts, m_interval) ) {
     m_state &= (~STATE_TRIGGERED);
     return false;
   }
@@ -44,7 +45,7 @@ bool SensorObj::trigger(const bool auto_rearm)
 void SensorObj::rearm(rtime_t interval)
 {
   interval  = (interval>0) ? interval : m_interval;
-  m_next_ts = ino::clock_ms() + interval;
+  m_last_ts = clock_ms();
   m_state   = (interval>0) ? (m_state | (STATE_ENABLE))
                            : (m_state & (~STATE_ENABLE));
 }
