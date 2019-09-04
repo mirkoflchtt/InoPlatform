@@ -4,11 +4,6 @@
 #include "InoEventHandler.h"
 #include "InoHalAdapter.h"
 
-#include "event_manager.h"
-
-#define HIGH_PRIORITY_QUEUE       (0x0U)
-#define LOW_PRIORITY_QUEUE        (0x1U)
-
 #define STATE_TIMER_TRIGGER       (0x1U)
 
 INO_NAMESPACE
@@ -20,54 +15,53 @@ public:
   EventHandler(void);
   ~EventHandler(void);
 
-  void setState(const uint32_t state)
+  void setState(const ino_u32 state)
   {
     m_state |=  state;
   }
 
-  bool pushEvent(
-    const uint32_t q,
+  ino_bool pushEvent(
+    const ino_u32 q,
     const event_t* event);
 
-  bool pushListener(
-    const event_code_t event_codes,
-    const event_listener_fn_t listener,
-    listener_handle_t listener_cookie);
+  ino_bool pushListener(
+    event_listener_t* listener);
 
-  bool popListener(
-    const event_listener_fn_t listener);
+  ino_bool popListener(
+    event_listener_t* listener);
 
-  bool pushLoop(
+  ino_bool pushLoop(
     handler_loop_fn fn,
-    void* fn_arg);
+    ino_handle fn_arg);
 
-  bool popLoop(
+  ino_bool popLoop(
     handler_loop_fn fn);
 
-  bool init(
+  ino_bool init(
     const event_listener_fn_t default_listener,
-    listener_handle_t listener_cookie);
+    listener_handle_t listener_cookie,
+    const ino_u32 interval_ms);
 
-  bool loop(
-    const uint32_t delay_ms);
+  ino_bool loop(
+    const ino_u32 delay_ms);
 
 private:
   class LoopEntry {
   public:
-    LoopEntry(handler_loop_fn fn_, void* fn_arg_) :
-      fn(fn_),
-      fn_arg(fn_arg_)
+    LoopEntry(handler_loop_fn fn, ino_handle fn_arg) :
+      m_fn(fn),
+      m_fn_arg(fn_arg)
     {
     }
 
-    handler_loop_fn       fn;
-    void*                 fn_arg;
+    handler_loop_fn             m_fn;
+    ino_handle                  m_fn_arg;
   };
 
   event_manager_t               m_manager;
   std::vector<LoopEntry>        m_loop_fn;
   Ticker                        m_timer_low;
-  uint32_t                      m_state;
+  ino_u32                       m_state;
 };
 
 
@@ -86,31 +80,29 @@ EventHandler::~EventHandler(void)
   m_timer_low.detach();
 }
 
-bool EventHandler::pushEvent(
-    const uint32_t q,
+ino_bool EventHandler::pushEvent(
+    const ino_u32 q,
     const event_t* event)
 {
   return event_manager_push_event(&m_manager, q, event);
 }
 
-bool EventHandler::pushListener(
-  const event_code_t event_codes,
-  const event_listener_fn_t listener,
-  listener_handle_t listener_cookie)
+ino_bool EventHandler::pushListener(
+  event_listener_t* listener)
 {
   return event_manager_bind_listener(
-    &m_manager, event_codes, listener, listener_cookie);
+    &m_manager, listener);
 }
 
-bool EventHandler::popListener(
-  const event_listener_fn_t listener)
+ino_bool EventHandler::popListener(
+  event_listener_t* listener)
 {
   return event_manager_unbind_listener(&m_manager, listener);
 }
 
-bool EventHandler::pushLoop(
+ino_bool EventHandler::pushLoop(
   handler_loop_fn fn,
-  void* fn_arg)
+  ino_handle fn_arg)
 {
   if ( !fn ) return false;
 
@@ -118,14 +110,14 @@ bool EventHandler::pushLoop(
   return true;
 }
 
-bool EventHandler::popLoop(
+ino_bool EventHandler::popLoop(
   handler_loop_fn fn)
 {
   if ( !fn ) return false;
 
   for ( std::vector<LoopEntry>::iterator it=m_loop_fn.begin(); 
         it!=m_loop_fn.end(); it++ ) {
-    if ( it->fn==fn ) {
+    if ( it->m_fn==fn ) {
       m_loop_fn.erase(it);
       return true;
     }
@@ -133,20 +125,21 @@ bool EventHandler::popLoop(
   return false;
 }
 
-bool EventHandler::init(
+ino_bool EventHandler::init(
   const event_listener_fn_t default_listener,
-  listener_handle_t listener_cookie)
+  listener_handle_t listener_cookie,
+  const ino_u32 interval_ms)
 {
   event_manager_init(&m_manager, default_listener, listener_cookie);
-  m_timer_low.attach_ms(INO_HANDLER_TIMER_INTERVAL_MS, timerCB);
+  m_timer_low.attach_ms(interval_ms, timerCB);
   return true;
 }
 
-bool EventHandler::loop(
-  const uint32_t delay_ms)
+ino_bool EventHandler::loop(
+  const ino_u32 delay_ms)
 {
   const clock_ts _end = clock_ms() + delay_ms;
-  bool ok = true;
+  ino_bool ok = true;
   
   event_manager_pop_event(&m_manager, HIGH_PRIORITY_QUEUE);
 
@@ -157,7 +150,7 @@ bool EventHandler::loop(
 
   for ( std::vector<LoopEntry>::iterator it=m_loop_fn.begin(); 
         it!=m_loop_fn.end(); it++ ) {
-    ok &= it->fn(it->fn_arg);
+    ok &= it->m_fn(it->m_fn_arg);
   }
 
   const clock_ts _now = clock_ms();
@@ -178,49 +171,48 @@ void timerCB(void)
 
 INO_API_DECLARE
 
-bool handlerPushEvent(
-  const uint32_t q,
+ino_bool handlerPushEvent(
+  const ino_u32 q,
   const event_t* event)
 {
   return g_ino_handler.pushEvent(q, event);
 }
 
-bool handlerPushListener(
-  const event_code_t event_codes,
-  const event_listener_fn_t listener,
-  listener_handle_t listener_cookie)
+ino_bool handlerPushListener(
+  event_listener_t* listener)
 {
-  return g_ino_handler.pushListener(event_codes, listener, listener_cookie);
+  return g_ino_handler.pushListener(listener);
 }
 
-bool handlerPopListener(
-  const event_listener_fn_t listener)
+ino_bool handlerPopListener(
+  event_listener_t* listener)
 {
   return g_ino_handler.popListener(listener);
 }
 
-bool handlerPushLoop(
+ino_bool handlerPushLoop(
   handler_loop_fn fn,
-  void* fn_arg)
+  ino_handle fn_arg)
 {
   return g_ino_handler.pushLoop(fn, fn_arg);
 }
 
-bool handlerPopLoop(
+ino_bool handlerPopLoop(
   handler_loop_fn fn)
 {
   return g_ino_handler.popLoop(fn);
 }
 
-bool handlerInit(
+ino_bool handlerInit(
   const event_listener_fn_t default_listener,
-  listener_handle_t listener_cookie)
+  listener_handle_t listener_cookie,
+  const ino_u32 interval_ms)
 {
-  return g_ino_handler.init(default_listener, listener_cookie);
+  return g_ino_handler.init(default_listener, listener_cookie, interval_ms);
 }
 
-bool handlerLoop(
-  const uint32_t delay_ms)
+ino_bool handlerLoop(
+  const ino_u32 delay_ms)
 {
   return g_ino_handler.loop(delay_ms);
 }

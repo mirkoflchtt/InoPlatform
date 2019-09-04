@@ -3,7 +3,7 @@
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 
-#include "event_manager_types.h"
+#include "event_manager.h"
 
 #ifndef INO_HANDLER_TIMER_INTERVAL_MS
 #define INO_HANDLER_TIMER_INTERVAL_MS           (1000)
@@ -11,34 +11,33 @@
 
 INO_NAMESPACE
 
-typedef bool (*handler_loop_fn)(void* fn_arg);
+typedef ino_bool (*handler_loop_fn)(ino_handle fn_arg);
 
 INO_API_DECLARE
 
-bool handlerPushEvent(
-  const uint32_t q,
+ino_bool handlerPushEvent(
+  const ino_u32 q,
   const event_t* event);
 
-bool handlerPushListener(
-  const event_code_t event_codes,
-  const event_listener_fn_t listener,
-  listener_handle_t listener_cookie);
+ino_bool handlerPushListener(
+  event_listener_t* listener);
 
-bool handlerPopListener(
-  const event_listener_fn_t listener);
+ino_bool handlerPopListener(
+  event_listener_t* listener);
 
-bool handlerPushLoop(
-  handler_loop_fn fn, void* fn_arg);
+ino_bool handlerPushLoop(
+  handler_loop_fn fn, ino_handle fn_arg);
 
-bool handlerPopLoop(
+ino_bool handlerPopLoop(
   handler_loop_fn fn);
 
-bool handlerInit(
+ino_bool handlerInit(
   const event_listener_fn_t default_listener,
-  listener_handle_t listener_cookie);
+  listener_handle_t listener_cookie,
+  const ino_u32 interval_ms=INO_HANDLER_TIMER_INTERVAL_MS);
 
-bool handlerLoop(
-  const uint32_t delay_ms=0);
+ino_bool handlerLoop(
+  const ino_u32 delay_ms=0);
 
 INO_API_DECLARE_END
 

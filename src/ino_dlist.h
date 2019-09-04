@@ -117,6 +117,8 @@
         &obj_->member_!=(head_); \
         obj_=p_, p_=INO_DLIST_CONTAINER(p_->member_.prev, type_, member_ ) )
 
+INO_NAMESPACE
+
 /*!
  * @typedef ino_dlist
  * @ingroup core_lists
@@ -188,5 +190,7 @@ ino_u32 ino_dlist_size(const ino_dlist* head)
   INO_DLIST_FOR_EACH_NEXT(item, head) { size++; }
   return size;
 }
+
+INO_NAMESPACE_END
 
 #endif    /*__INO_DLIST_H*/
