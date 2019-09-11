@@ -32,15 +32,15 @@ public:
     OTA_CALLBACK_PROGRESS(on_progress)=NULL,
     OTA_CALLBACK_ERROR(on_error)=NULL );
     
-  ~OTA( void );
+  ~OTA(void);
 
-  bool          connected( void );
+  bool          connected(void);
   
-  bool          init( const char* wifi_ssid, const char* wifi_password, const bool wait=false );
-  bool          loop( void );
+  bool          init(const char* wifi_ssid, const char* wifi_password, const bool wait=false);
+  bool          loop(void);
 
 private:
-  bool                m_initiliazed;
+  bool                m_initialiazed;
   const char*         m_host;
   const char*         m_password;
   const uint16_t      m_port;
@@ -49,7 +49,6 @@ private:
   OTA_CALLBACK(m_on_end);
   OTA_CALLBACK_PROGRESS(m_on_progress);
   OTA_CALLBACK_ERROR(m_on_error);
-  
 };
 
 INO_NAMESPACE_END

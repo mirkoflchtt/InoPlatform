@@ -117,7 +117,7 @@ void AdvButton::check(void)
 
 delay_ts AdvButton::getPressTime(void)
 {
-  return elapsed_ms(clock_ms(), m_startPress);
+  return ino::elapsed_ms(ino::clock_ms(), m_startPress);
 }
 
 void AdvButton::setOnKeyPress(void (*f)(AdvButton*))

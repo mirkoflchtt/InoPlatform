@@ -102,21 +102,27 @@ static volatile uint32_t g_interrupt_state = 0x0;
 
 #endif
 
+INO_API_ENTRY
 ino_u8 trigger_event(
   const clock_ts ts,
   const clock_ts last_ts,
   const delay_ts interval_ts);
 
+INO_API_ENTRY
 delay_ts elapsed_ms(
   const delay_ts ts,
   const delay_ts last_ts);
 
+INO_API_ENTRY
 clock_ts clock_ms(void);
 
+INO_API_ENTRY
 clock_ts clock_us(void);
 
+INO_API_ENTRY
 void wait_ms(const delay_ts ts);
 
+INO_API_ENTRY
 void wait_us(const delay_ts ts);
 
 INO_API_DECLARE_END

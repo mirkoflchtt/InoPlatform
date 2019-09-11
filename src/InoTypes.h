@@ -38,12 +38,15 @@
 
 #define INO_CR                  "\r\n"
 
-#define INO_UNUSED(x_)          (void)(x_);
+#define INO_UNUSED(x_) \
+  (void)(x_);
 
 #define INO_MIN(x, y) \
   (((x)<(y)) ? (x) : (y))
+
 #define INO_MAX(x, y) \
   (((x)>(y)) ? (x) : (y))
+
 #define INO_CLAMP(value, min, max) \
   INO_MAX(min, INO_MIN(max, value))
 
@@ -79,12 +82,6 @@
 #define INO_COLOR_OFF              "\x1b[0m"
 
 /******************************************************************************/
-INO_NAMESPACE
-
-typedef uint32_t        rtime_t;
-typedef int32_t         rtime_diff_t;
-typedef void*           handle;
-
 typedef void*           ino_handle;
 typedef uint8_t*        ino_ptr;
 typedef const uint8_t*  ino_ptr_const;
@@ -102,6 +99,12 @@ typedef uint8_t         ino_u8;
 typedef uint16_t        ino_u16;
 typedef uint32_t        ino_u32;
 typedef uint64_t        ino_u64;
+
+INO_NAMESPACE
+
+typedef uint32_t        rtime_t;
+typedef int32_t         rtime_diff_t;
+typedef void*           handle;
 
 INO_NAMESPACE_END
 

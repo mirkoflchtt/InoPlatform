@@ -38,6 +38,7 @@ private:
 
 INO_API_DECLARE
 
+INO_API_ENTRY
 ino_u8 trigger_event(
   const clock_ts ts,
   const clock_ts last_ts,
@@ -51,31 +52,36 @@ ino_u8 trigger_event(
   return out;
 }
 
+INO_API_ENTRY
 delay_ts elapsed_ms(
   const delay_ts ts,
   const delay_ts last_ts)
 {
   // return (ts-last_ts);
-  return (ts<last_ts) ? ((~0x0U)-last_ts)+ts : (ts-last_ts);
+  return (ts<last_ts) ? (((~0x0U)-last_ts)+ts) : (ts-last_ts);
 }
 
+INO_API_ENTRY
 clock_ts clock_ms(void)
 {
   static Millis s_clock(0);
   return s_clock.now();
 }
 
+INO_API_ENTRY
 clock_ts clock_us(void)
 {
   static Micros s_clock(0);
   return s_clock.now();
 }
 
+INO_API_ENTRY
 void wait_ms(const delay_ts ts)
 {
   delay(ts);
 }
 
+INO_API_ENTRY
 void wait_us(const delay_ts ts)
 {
   delayMicroseconds(ts);
