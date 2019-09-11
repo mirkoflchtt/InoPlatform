@@ -334,7 +334,7 @@ INO_API_ENTRY
 int ino_builtin_tests_ino_rbuffer(int argc, char* argv[])
 {
   const ino_u32 max_capacity = INO_RBUFFER_MAX_CAPACITY;
-  INO_RBUFFER_DECLARE(b, 15, INO_STATIC_TYPE_ARRAY_DECLARE(ino_float, 15))
+  INO_RBUFFER_DECLARE(b, 15, INO_ARRAY_STATIC(15, ino_float))
 
   int failed = 0;
   ino_u32 idx0 = 0, idx1 = 0, idx2 = 0;

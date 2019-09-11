@@ -39,7 +39,7 @@ private:
 INO_API_DECLARE
 
 INO_API_ENTRY
-ino_u8 trigger_event(
+ino_bool trigger_event(
   const clock_ts ts,
   const clock_ts last_ts,
   const delay_ts interval_ts)
@@ -49,7 +49,7 @@ ino_u8 trigger_event(
   const ino_u8 out  = (mask & 0xFE) ? ((mask==0x4)|(mask==0x7)) : mask;
 
   //printf("  ## mask(0x%02x) -> %d\n", mask, out);
-  return out;
+  return (out>0) ? true : false;
 }
 
 INO_API_ENTRY

@@ -1,13 +1,13 @@
-#ifndef __INO_SENSOR_TEMPERATURE_H__
-#define __INO_SENSOR_TEMPERATURE_H__
+#ifndef __INO_SENSOR_TEMPERATURE_H
+#define __INO_SENSOR_TEMPERATURE_H
 #include <DHT.h>
 #include "InoSensorObj.h"
 
 #ifdef ESP8266
 #include <functional>
-typedef std::function<void(const ino::handle caller, const float temperature, const float humidity)> OnUpdateTemperatureSignature;
+typedef std::function<void(const ino_handle caller, const ino_float temperature, const ino_float humidity)> OnUpdateTemperatureSignature;
 #else
-typedef void (*OnUpdateTemperatureSignature)(const ino::handle caller, const float temperature, const float humidity);
+typedef void (*OnUpdateTemperatureSignature)(const ino_handle caller, const ino_float temperature, const ino_float humidity);
 #endif
 
 #define AM2320_TYPE                 (AM2320)
@@ -21,26 +21,26 @@ typedef OnUpdateTemperatureSignature OnUpdateTemperatureCallback;
 class SensorTemperature : public SensorObj {
 public:
   SensorTemperature(
-    const uint8_t pin,
-    const uint8_t type,
+    const ino_u8 pin,
+    const ino_u8 type,
     OnUpdateTemperatureCallback callback,
-    const handle caller,
-    const rtime_t interval=MY_INO_SENSOR_UPDATE_TEMPERATURE_INTERVAL,     // in seconds
-    const bool celsius=true,
-    const uint8_t rearm_count=8,
-    const rtime_t rearm_interval=5);        // in seconds
+    const ino_handle caller,
+    const delay_ts interval=MY_INO_SENSOR_UPDATE_TEMPERATURE_INTERVAL,     // in seconds
+    const ino_bool celsius=true,
+    const ino_u8 rearm_count=8,
+    const delay_ts rearm_interval=5);        // in seconds
   
   bool      loop(void);
   
 private:
   DHT                         m_sensor;
   OnUpdateTemperatureCallback m_callback;
-  const handle                m_caller;
-  rtime_t                     m_rearm_interval;
-  uint8_t                     m_rearm_count;
-  uint8_t                     m_count;
+  const ino_handle            m_caller;
+  delay_ts                    m_rearm_interval;
+  ino_u8                      m_rearm_count;
+  ino_u8                      m_count;
 };
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_SENSOR_TEMPERATURE_H__*/
+#endif    /*__INO_SENSOR_TEMPERATURE_H*/

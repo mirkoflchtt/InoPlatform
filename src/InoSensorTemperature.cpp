@@ -5,14 +5,14 @@
 INO_NAMESPACE
 
 SensorTemperature::SensorTemperature(
-  const uint8_t pin,
-  const uint8_t type,
+  const ino_u8 pin,
+  const ino_u8 type,
   OnUpdateTemperatureCallback callback,
-  const handle caller,
-  const rtime_t interval,
-  const bool celsius,
-  const uint8_t rearm_count,
-  const rtime_t rearm_interval) :
+  const ino_handle caller,
+  const delay_ts interval,
+  const ino_bool celsius,
+  const ino_u8 rearm_count,
+  const delay_ts rearm_interval) :
 SensorObj(pin, type, interval*1000),
 m_sensor(pin, type),
 m_callback(callback),
@@ -29,7 +29,7 @@ bool SensorTemperature::loop(void)
   m_sensor.loop();
 
   if ( m_callback && trigger(true) ) {
-    const bool isFahrenheit = (m_state & CELSIUS_FLAG) ? false : true;
+    const ino_bool isFahrenheit = (m_state & CELSIUS_FLAG) ? false : true;
 
     /*
      * Reading temperature or humidity takes about 250 milliseconds!
@@ -37,10 +37,10 @@ bool SensorTemperature::loop(void)
      */
 
     /* Read humidity */    
-    const float h = m_sensor.readHumidity();
+    const ino_float h = m_sensor.readHumidity();
 
     /* Read temperature as Celsius or Farenheit */
-    float t     = m_sensor.readTemperature(isFahrenheit);
+    ino_float t     = m_sensor.readTemperature(isFahrenheit);
     
     if ( !(isnan(h)||isnan(t)) ) {
       m_count = m_rearm_count;

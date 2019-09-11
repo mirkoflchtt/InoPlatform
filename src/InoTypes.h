@@ -1,5 +1,5 @@
-#ifndef __INO_TYPES_H__
-#define __INO_TYPES_H__
+#ifndef __INO_TYPES_H
+#define __INO_TYPES_H
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -53,13 +53,19 @@
 #define INO_HANDLE_NULL         INO_HANDLE(0)
 #define INO_HANDLE(ptr)         ((ino_handle)(ptr))
 #define INO_PTR(ptr)            ((ino_ptr)(ptr))
+#define INO_PTR_CONST(ptr)      ((ino_ptr_const)(ptr))
+#define INO_UPTR(ptr)           ((ino_uptr)(ptr))
+
+/******************************************************************************/
+#define INO_PACK(...) \
+  __VA_ARGS__
 
 /******************************************************************************/
 #define INO_ARRAY_COUNT(array_) \
   ( sizeof(array_)/sizeof((array_)[0]) )
 
-#define INO_STATIC_TYPE_ARRAY_DECLARE(type_, size_, ...) \
-  (type_[size_]) { ##__VA_ARGS__ } 
+#define INO_ARRAY_STATIC(size_, type_, ...) \
+  (type_[size_]) { __VA_ARGS__ } 
 
 /******************************************************************************/
 #define INO_COLOR_BLACK            "\x1b[30m"
@@ -90,22 +96,25 @@ typedef uintptr_t       ino_uptr;
 typedef bool            ino_bool;
 typedef float           ino_float;
 
+typedef int             ino_int;
 typedef int8_t          ino_i8;
 typedef int16_t         ino_i16;
 typedef int32_t         ino_i32;
 typedef int64_t         ino_i64;
 
+typedef unsigned int    ino_uint;
 typedef uint8_t         ino_u8;
 typedef uint16_t        ino_u16;
 typedef uint32_t        ino_u32;
 typedef uint64_t        ino_u64;
 
+typedef int32_t         ino_diff_ts;
+
 INO_NAMESPACE
 
-typedef uint32_t        rtime_t;
-typedef int32_t         rtime_diff_t;
-typedef void*           handle;
+typedef uint32_t        clock_ts;
+typedef uint32_t        delay_ts;
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_TYPES_H__*/
+#endif    /*__INO_TYPES_H*/

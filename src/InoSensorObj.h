@@ -1,5 +1,5 @@
-#ifndef __INO_SENSOR_OBJ_H__
-#define __INO_SENSOR_OBJ_H__
+#ifndef __INO_SENSOR_OBJ_H
+#define __INO_SENSOR_OBJ_H
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -8,23 +8,23 @@ INO_NAMESPACE
 class SensorObj {
 public:
   SensorObj(
-    const uint8_t pin,
-    const uint8_t type,
-    const rtime_t interval);
+    const ino_u8 pin,
+    const ino_u8 type,
+    const delay_ts interval);
   
 protected:
-  bool        trigger(const bool auto_rearm=true);
-  void        rearm(rtime_t interval=0);
-  void        setInterval(const rtime_t interval);
+  bool        trigger(const ino_bool auto_rearm=true);
+  void        rearm(delay_ts interval=0);
+  void        setInterval(const delay_ts interval);
 
-  const uint8_t   m_pin;
-  const uint8_t   m_type;
-  rtime_t         m_interval;
+  const ino_u8    m_pin;
+  const ino_u8    m_type;
+  delay_ts        m_interval;
   /* 8 MSB bits are reserved flags */
-  uint32_t        m_state;
+  ino_u32         m_state;
   clock_ts        m_last_ts;
 };
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_SENSOR_OBJ_H__*/
+#endif    /*__INO_SENSOR_OBJ_H*/

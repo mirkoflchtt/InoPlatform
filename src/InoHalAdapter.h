@@ -1,5 +1,5 @@
-#ifndef __INO_HAL_ADAPTER_H__
-#define __INO_HAL_ADAPTER_H__
+#ifndef __INO_HAL_ADAPTER_H
+#define __INO_HAL_ADAPTER_H
 #include <Arduino.h>
 #include "InoTypes.h"
 
@@ -10,10 +10,6 @@
 #define DELAY_FMT       "%u"
 
 INO_NAMESPACE
-
-typedef uint32_t        clock_ts;
-typedef uint32_t        delay_ts;
-
 
 INO_API_DECLARE
 
@@ -103,7 +99,7 @@ static volatile uint32_t g_interrupt_state = 0x0;
 #endif
 
 INO_API_ENTRY
-ino_u8 trigger_event(
+ino_bool trigger_event(
   const clock_ts ts,
   const clock_ts last_ts,
   const delay_ts interval_ts);
@@ -129,4 +125,4 @@ INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_HAL_ADAPTER_H__*/
+#endif    /*__INO_HAL_ADAPTER_H*/

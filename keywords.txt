@@ -6,11 +6,25 @@
 # Datatypes (KEYWORD1)
 ##########################################
 
-ino						KEYWORD1
-rtime_t					KEYWORD1
-rtime_diff_t			KEYWORD1
-
-firmware_id		KEYWORD1
+ino                     KEYWORD1
+firmware_id             KEYWORD1
+ino_handle              KEYWORD1
+ino_ptr                 KEYWORD1
+ino_ptr_const           KEYWORD1
+ino_uptr                KEYWORD1
+ino_bool                KEYWORD1
+ino_float               KEYWORD1
+ino_int                 KEYWORD1
+ino_i8                  KEYWORD1
+ino_i16                 KEYWORD1
+ino_i32                 KEYWORD1
+ino_i64                 KEYWORD1
+ino_uint                KEYWORD1
+ino_u8                  KEYWORD1
+ino_u16                 KEYWORD1
+ino_u32                 KEYWORD1
+ino_u64                 KEYWORD1
+ino_diff_ts             KEYWORD1
 
 clock_ts                KEYWORD1
 delay_ts                KEYWORD1
@@ -75,7 +89,8 @@ INO_FIRMWARE_SIGNATURE	LITERAL1
 INO_FIRMWARE_GET	LITERAL1
 
 DEFAULT_LONGPRESS_MSEC	LITERAL1
-EV_NONE					LITERAL1
-EV_SHORTPRESS			LITERAL1
-EV_LONGPRESS			LITERAL1
-EV_TIMEOUT				LITERAL1
+EV_NONE                 LITERAL1
+EV_SHORTPRESS           LITERAL1
+EV_LONGPRESS            LITERAL1
+EV_TIMEOUT              LITERAL1
+
