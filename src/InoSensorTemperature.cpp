@@ -1,4 +1,5 @@
 #include "InoSensorTemperature.h"
+#include "InoLog.h"
 
 #define CELSIUS_FLAG           (0x1U<<0)
 
@@ -13,18 +14,18 @@ SensorTemperature::SensorTemperature(
   const ino_bool celsius,
   const ino_u8 rearm_count,
   const delay_ts rearm_interval) :
-SensorObj(pin, type, interval*1000),
+SensorObj(pin, type, interval*1000U),
 m_sensor(pin, type),
 m_callback(callback),
 m_caller(caller),
-m_rearm_interval(rearm_interval*1000),
+m_rearm_interval(rearm_interval*1000U),
 m_rearm_count(rearm_count),
 m_count(rearm_count)
 {
   m_state |= (celsius) ? CELSIUS_FLAG : 0x0;
 }
 
-bool SensorTemperature::loop(void)
+ino_bool SensorTemperature::loop(void)
 {
   m_sensor.loop();
 
@@ -51,7 +52,7 @@ bool SensorTemperature::loop(void)
       return true;
     } else {
       if (m_count>0) {
-        printf("[Warning] SensorTemperature::loop() count(%u) rearm(%u)" INO_CR, 
+        INO_LOG_INFO("[Warning] SensorTemperature::loop() count(%u) rearm(%u)", 
                m_count, m_rearm_interval);
         rearm(m_rearm_interval);
         m_count--;

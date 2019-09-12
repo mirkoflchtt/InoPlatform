@@ -3,18 +3,18 @@
 INO_NAMESPACE
 
 static
-bool defaultStdReadFunc(const uint8_t pin)
+ino_bool defaultStdReadFunc(const ino_u8 pin)
 {
   return (digitalRead(pin)==HIGH);
 }
 
 StdButton::StdButton(
-  const uint8_t pin,
-  const uint8_t pin_state,
+  const ino_u8 pin,
+  const ino_u8 pin_state,
   const readStdButtonFunc func,
-  const uint16_t longpress_msec,
-  const uint16_t timeout_msec,
-  const uint16_t debounce_msec) :
+  const ino_u16 longpress_msec,
+  const ino_u16 timeout_msec,
+  const ino_u16 debounce_msec) :
 m_was_pressed(false),
 m_pressed_start(0),
 m_pin(pin),
@@ -30,12 +30,12 @@ m_read_func((func) ? func : &defaultStdReadFunc)
 
 StdButtonEvent StdButton::check(void)
 {
-  const bool now_pressed = m_read_func(m_pin);
+  const ino_bool now_pressed = m_read_func(m_pin);
   StdButtonEvent event   = EV_NONE;
   const clock_ts  ts     = clock_ms();
   
-  // button was released
-  if ( !now_pressed && m_was_pressed ) {
+  /* button was released */
+  if ( (!now_pressed) && m_was_pressed ) {
     // handle release button event
     //if ( ts>=m_pressed_start+m_debounce_msec ) {
     if ( trigger_event(ts, m_pressed_start, m_debounce_msec) ) {
@@ -48,12 +48,12 @@ StdButtonEvent StdButton::check(void)
     m_pressed_start = 0;
   }
 
-  // update press 1st time the button is pressed
-  else if ( !m_was_pressed && now_pressed ) {
+  /* update press 1st time the button is pressed */
+  else if ( now_pressed && (!m_was_pressed)) {
     m_pressed_start = ts;
   }
   
-  // remember state, and we're done
+  /* remember state, and we're done */
   m_was_pressed = now_pressed;
 
   return event;

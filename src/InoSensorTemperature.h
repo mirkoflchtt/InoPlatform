@@ -30,7 +30,7 @@ public:
     const ino_u8 rearm_count=8,
     const delay_ts rearm_interval=5);        // in seconds
   
-  bool      loop(void);
+  ino_bool      loop(void);
   
 private:
   DHT                         m_sensor;
