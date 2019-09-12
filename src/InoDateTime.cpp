@@ -31,7 +31,7 @@ datetime_ts DateTime::now_ms(void)
   return m_base_ms + m_last_ts;
 }
 
-uint32_t DateTime::epoch_ts(void)
+ino_u32 DateTime::epoch_ts(void)
 {
   return m_epoch_ts;
 }
@@ -47,7 +47,8 @@ void DateTime::handle_overflow(void)
   m_last_ts = ts;
 }
 
-void DateTime::set_base_ts(const datetime_ts base_ms, const int8_t timezone)
+void DateTime::set_base_ts(
+  const datetime_ts base_ms, const ino_i8 timezone)
 {
   const clock_ts ts = clock_ms();
   const datetime_ts offset = (datetime_ts)timezone * MSEC_IN_A_HOUR - ts;
@@ -57,11 +58,12 @@ void DateTime::set_base_ts(const datetime_ts base_ms, const int8_t timezone)
   m_base_ms  = base_ms + offset;
 }
 
-datetime_ts DateTime::ntp_to_datetime(const uint8_t* ntp_packet)
+datetime_ts DateTime::ntp_to_datetime(
+  const ino_u8* ntp_packet)
 {
-  uint64_t acc = 0;
+  ino_u64 acc = 0;
   datetime_ts ts;
-  int32_t i;
+  ino_i32 i;
 
   // get seconds from 1900 from ntp packet (bytes [40-43])
   for ( i=INO_NTP_PACKET_SIZE-8; i<INO_NTP_PACKET_SIZE-4; i++ ) {
@@ -74,7 +76,7 @@ datetime_ts DateTime::ntp_to_datetime(const uint8_t* ntp_packet)
   // convert seconds o milliseconds
   ts = (acc*1000);
 
-  m_epoch_ts = (uint32_t)(acc);
+  m_epoch_ts = (ino_u32)(acc);
 
   // get useconds part from ntp packet (bytes [44-47])
   acc = 0;

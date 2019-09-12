@@ -1,5 +1,5 @@
-#ifndef __INO_LFSR_H__
-#define __INO_LFSR_H__
+#ifndef __INO_LFSR_H
+#define __INO_LFSR_H
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 
@@ -9,15 +9,15 @@ INO_NAMESPACE
 INO_API_DECLARE
 
 void      generateLFSRSequence(
-  uint16_t* data,
-  const size_t num,
-  const uint16_t seed);
+  ino_u16* data,
+  const ino_size num,
+  const ino_u16 seed);
 
 void      testLFSR(
-  const uint16_t seed);
+  const ino_u16 seed);
 
 INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif   /*__INO_LFSR_H__*/
+#endif   /*__INO_LFSR_H*/

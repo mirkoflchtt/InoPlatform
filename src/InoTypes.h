@@ -95,6 +95,8 @@ typedef uintptr_t       ino_uptr;
 
 typedef bool            ino_bool;
 typedef float           ino_float;
+typedef uint32_t        ino_size;
+typedef uint32_t        ino_flags;
 
 typedef int             ino_int;
 typedef int8_t          ino_i8;

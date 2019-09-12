@@ -24,12 +24,12 @@ static const char *level_colors[] = {
 class Log {
 public:
   Log( const char* name="INO LOG" ) :
-    m_name( name ),
-    m_quiet( false ),
+    m_name(name),
+    m_quiet(false),
     m_log_level(LOG_ERROR),
-    m_stream( NULL ),
-    m_mqtt( NULL ),
-    m_mqtt_topic( NULL )
+    m_stream(NULL),
+    m_mqtt(NULL),
+    m_mqtt_topic(NULL)
   {
   }
   
@@ -38,7 +38,7 @@ public:
     m_name = name;
   }
 
-  void setQuiet(const bool quiet)
+  void setQuiet(const ino_bool quiet)
   {
     m_quiet = quiet;
   }
@@ -52,7 +52,7 @@ public:
 
   void  setMQTT(PubSubClient* mqtt, const char* mqtt_topic);
   
-  uint32_t log(
+  ino_u32 log(
     const LogLevel level,
     const char *file, const int line,
     const char* fmt, va_list ap);
@@ -63,7 +63,7 @@ public:
   
 private:
   const char*     m_name;
-  bool            m_quiet;
+  ino_bool        m_quiet;
   LogLevel        m_log_level;
 
   Stream*         m_stream;
@@ -72,32 +72,31 @@ private:
   const char*     m_mqtt_topic;
 };
 
-void  Log::setMQTT( PubSubClient* mqtt, const char* mqtt_topic )
+void  Log::setMQTT(PubSubClient* mqtt, const char* mqtt_topic)
 {
-  m_mqtt_topic  = (mqtt) ? mqtt_topic : NULL;
-  m_mqtt        = (mqtt_topic) ? mqtt : NULL;
-  if ( m_mqtt ) {
-    printf("#### [Module %s] Enabled MQTT Logging ####\n", m_name);
+  m_mqtt_topic  = (mqtt && mqtt_topic) ? mqtt_topic : NULL;
+  m_mqtt        = (mqtt && mqtt_topic) ? mqtt : NULL;
+  if (m_mqtt) {
+    INO_LOG_INFO("#### [Module %s] Enabled MQTT Logging: topic %s ####", m_name, m_mqtt_topic);
   } else {
-    printf("#### [Module %s] Disabled MQTT Logging ####\n", m_name);
+    INO_LOG_INFO("#### [Module %s] Disabled MQTT Logging ####", m_name);
   }
-    
 }   
 
-void  Log::setStream( Stream* stream )
+void  Log::setStream(Stream* stream)
 {
   m_stream    = stream;
   
-  if ( m_stream ) {
-    printf("#### [Module %s] Enabled Stream Logging ####\n", m_name);
+  if (m_stream) {
+    INO_LOG_INFO("#### [Module %s] Enabled Stream Logging ####", m_name);
   } else {
-    printf("#### [Module %s] Disabled Stream Logging ####\n", m_name);
+    INO_LOG_INFO("#### [Module %s] Disabled Stream Logging ####", m_name);
   }
 } 
 
 
 
-uint32_t  Log::log(
+ino_u32  Log::log(
   const LogLevel level,
   const char *file, const int line,
   const char* fmt, va_list ap)
@@ -118,7 +117,7 @@ uint32_t  Log::log(
   }
 #endif
 
-  uint32_t written = 0;
+  ino_u32 written = 0;
 
 #ifdef INO_LOG_HAS_DATETIME
   /* Get current time */
@@ -155,7 +154,7 @@ uint32_t  Log::log(
     m_stream->print(buf);
   }
 
-  //printf("### written(%d)\r\n", written);
+  //printf("### written(%u)\r\n", written);
 
   return written;
 }
@@ -174,7 +173,7 @@ void logSetName(
 }
 
 void logSetQuiet(
-  const bool quiet)
+  const ino_bool quiet)
 {
   g_InoLog.setQuiet(quiet);
 }
@@ -209,14 +208,14 @@ void logStreamDisable(void)
   g_InoLog.setStream(NULL);
 }
 
-uint32_t logMsg(
+ino_u32 logMsg(
   const LogLevel level,
   const char *file, const int line,
   const char* fmt, ...)
 {
   va_list ap;
   va_start(ap, fmt);
-  const uint32_t written = g_InoLog.log(level, file, line, fmt, ap);
+  const ino_u32 written = g_InoLog.log(level, file, line, fmt, ap);
   va_end(ap);
   return written;
 }

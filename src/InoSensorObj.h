@@ -13,7 +13,7 @@ public:
     const delay_ts interval);
   
 protected:
-  bool        trigger(const ino_bool auto_rearm=true);
+  ino_bool    trigger(const ino_bool auto_rearm=true);
   void        rearm(delay_ts interval=0);
   void        setInterval(const delay_ts interval);
 

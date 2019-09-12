@@ -18,7 +18,7 @@ m_last_ts(clock_ms())
   m_state |= (interval>0) ? STATE_ENABLE : 0x0;
 }
 
-bool SensorObj::trigger(
+ino_bool SensorObj::trigger(
   const ino_bool auto_rearm)
 {
   if (0==(m_state & STATE_ENABLE)) {

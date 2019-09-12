@@ -1,5 +1,5 @@
-#ifndef __INO_DATE_TIME_H__
-#define __INO_DATE_TIME_H__
+#ifndef __INO_DATE_TIME_H
+#define __INO_DATE_TIME_H
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -12,7 +12,7 @@
 
 INO_NAMESPACE
 
-typedef uint64_t        datetime_ts;
+typedef ino_u64        datetime_ts;
 
 String printDateTime(const ino::datetime_ts ts);
 
@@ -21,21 +21,21 @@ public:
   DateTime(void);
 
   datetime_ts    now_ms(void);
-  uint32_t       epoch_ts(void);
+  ino_u32        epoch_ts(void);
 
-  void set_base_ts(const datetime_ts base_ms, const int8_t timezone=0);
+  void set_base_ts(const datetime_ts base_ms, const ino_i8 timezone=0);
     
-  datetime_ts ntp_to_datetime(const uint8_t* ntp_packet);
+  datetime_ts ntp_to_datetime(const ino_u8* ntp_packet);
 
 private:
   void          handle_overflow(void);
 
   datetime_ts   m_base_ms;
   clock_ts      m_last_ts;
-  uint32_t      m_epoch_ts;
-  int8_t        m_timezone;
+  ino_u32       m_epoch_ts;
+  ino_i8        m_timezone;
 };
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_DATE_TIME_H__*/
+#endif    /*__INO_DATE_TIME_H*/

@@ -12,7 +12,9 @@
 INO_NAMESPACE
 
 PinOut::PinOut(
-  const uint8_t pin, const bool high_, const bool swap_high_low_) :
+  const ino_u8 pin,
+  const ino_bool high_,
+  const ino_bool swap_high_low_) :
 m_swap_high_low(swap_high_low_),
 m_state(PINOUT_PIN(pin)),
 m_start(clock_ms())
@@ -21,27 +23,27 @@ m_start(clock_ms())
   high(high_);
 }
 
-bool PinOut::swapHighLow(void)
+ino_bool PinOut::swapHighLow(void)
 {
   m_swap_high_low = (m_swap_high_low) ? false : true;
   return m_swap_high_low;
 }
 
-bool PinOut::high(void)
+ino_bool PinOut::high(void)
 {
   return PINOUT_HIGH(m_state) ? true : false;
 }
 
 
-bool PinOut::blink(void)
+ino_bool PinOut::blink(void)
 {
   return PINOUT_BLINK(m_state) ? true : false;
 }
 
-void PinOut::high(const bool high_)
+void PinOut::high(const ino_bool high_)
 {
-  m_start     = clock_ms();
-  m_state &= ~PINOUT_BLINK_MASK;
+  m_start    = clock_ms();
+  m_state   &= ~PINOUT_BLINK_MASK;
   
   if ( high_ ) {
     m_state |=   PINOUT_HIGH_MASK;
@@ -52,9 +54,9 @@ void PinOut::high(const bool high_)
   }
 }
 
-void PinOut::blink(const uint32_t msec_delay, const uint8_t loops)
+void PinOut::blink(const ino_u32 msec_delay, const ino_u8 loops)
 {
-  for ( uint8_t i=0; i<loops; i++ ) {
+  for ( ino_u8 i=0; i<loops; i++ ) {
     // If already in blink state
     if ( blink() ) {
       // switch the led after interval milliseconds elapsed 
@@ -69,9 +71,9 @@ void PinOut::blink(const uint32_t msec_delay, const uint8_t loops)
       toggle();
       m_state |= PINOUT_BLINK_MASK;
     }
-    if ( loops>1 ) {
-      wait_ms(msec_delay);
-    }
+    if ( 1==loops ) break;
+    
+    wait_ms(msec_delay);
   }
 }
 

@@ -1,5 +1,5 @@
-#ifndef __INO_PLATFORM_H__
-#define __INO_PLATFORM_H__
+#ifndef __INO_PLATFORM_H
+#define __INO_PLATFORM_H
 
 #include "InoMyConfig.h"
 #include "InoTypes.h"
@@ -21,4 +21,4 @@
 #include "InoSensorTemperature.h"
 #endif
 
-#endif    /*__INO_PLATFORM_H__*/
+#endif    /*__INO_PLATFORM_H*/

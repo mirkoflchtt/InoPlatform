@@ -1,5 +1,5 @@
-#ifndef __INO_LOG_H__
-#define __INO_LOG_H__
+#ifndef __INO_LOG_H
+#define __INO_LOG_H
 #ifndef HAS_X86
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
@@ -21,7 +21,7 @@
 //#define LOG_STRIP_FILE_PATH     '\\'
 
 
-typedef uint8_t LogLevel;
+typedef ino_u8 LogLevel;
 
 #define LOG_SUDO            (0x0)
 #define LOG_FATAL           (0x1)
@@ -87,7 +87,7 @@ void logSetName(
   const char* name);
 
 void logSetQuiet(
-  const bool quiet);
+  const ino_bool quiet);
 
 void logSetLevel(
   const LogLevel level);
@@ -104,7 +104,7 @@ void logStreamEnable(
 void logStreamDisable(void);
 #endif
 
-uint32_t logMsg(
+ino_u32 logMsg(
   const LogLevel level,
   const char *file, const int line,
   const char* fmt, ...);
@@ -114,4 +114,4 @@ INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif   /*__INO_LOG_H__*/
+#endif   /*__INO_LOG_H*/

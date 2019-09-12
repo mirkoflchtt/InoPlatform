@@ -1,5 +1,5 @@
-#ifndef __INO_FLAGS_H__
-#define __INO_FLAGS_H__
+#ifndef __INO_FLAGS_H
+#define __INO_FLAGS_H
 #include "InoTypes.h"
 
 #define INO_FLAG_CLEAR(flags)          { flags = ino::FLAG_NONE; }
@@ -10,8 +10,8 @@
 INO_NAMESPACE
 
 enum { FLAG_NONE = 0x0 };
-typedef uint32_t        flags;
+typedef ino_flags       flags;
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_FLAGS_H__*/
+#endif    /*__INO_FLAGS_H*/

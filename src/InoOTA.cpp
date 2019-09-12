@@ -5,25 +5,25 @@
 INO_NAMESPACE
 
 static
-void otaOnStart( void )
+void otaOnStart(void)
 {
   INO_LOG_INFO("[OTA] Start..")
 }
 
 static
-void otaOnEnd( void )
+void otaOnEnd(void)
 {
   INO_LOG_INFO("[OTA] End!")
 }
 
 static
-void otaOnProgress( unsigned int progress, unsigned int total )
+void otaOnProgress(unsigned int progress, unsigned int total)
 {
   INO_LOG_INFO("[OTA] Progress : (%u/%u)", progress, total)
 }
 
 static
-void otaOnError( ota_error_t error )
+void otaOnError(ota_error_t error)
 {
   switch ( error ) {
     case OTA_AUTH_ERROR:
@@ -51,7 +51,7 @@ void otaOnError( ota_error_t error )
 OTA::OTA(
   const char* host,
   const char* password,
-  const uint16_t port,
+  const ino_u16 port,
   OTA_CALLBACK(on_start),
   OTA_CALLBACK(on_end),
   OTA_CALLBACK_PROGRESS(on_progress),
@@ -71,19 +71,20 @@ OTA::~OTA(void)
 {
 }
 
-bool OTA::connected(void)
+ino_bool OTA::connected(void)
 {
-  return ( WiFi.status()==WL_CONNECTED );
+  return (WiFi.status()==WL_CONNECTED);
 }
 
-bool OTA::init(const char* wifi_ssid, const char* wifi_password, const bool wait)
+ino_bool OTA::init(
+  const char* wifi_ssid, const char* wifi_password, const ino_bool wait)
 {
   if (!wifi_ssid) {
     return false;
   }
 
-  WiFi.mode( WIFI_STA );
-  WiFi.begin( wifi_ssid, wifi_password );
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(wifi_ssid, wifi_password);
 
   while (wait && (WiFi.status() != WL_CONNECTED)) {
     printf(".");
@@ -94,7 +95,7 @@ bool OTA::init(const char* wifi_ssid, const char* wifi_password, const bool wait
   return true;
 }
 
-bool OTA::loop(void)
+ino_bool OTA::loop(void)
 {
   if ( WiFi.status() == WL_CONNECTED ) {
     if (!m_initialiazed) {

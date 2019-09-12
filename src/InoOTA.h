@@ -1,5 +1,5 @@
-#ifndef __INO_OTA_H__
-#define __INO_OTA_H__
+#ifndef __INO_OTA_H
+#define __INO_OTA_H
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
@@ -26,7 +26,7 @@ public:
    OTA(
     const char* host=NULL,
     const char* password=NULL,
-    const uint16_t port=8266,
+    const ino_u16 port=8266,
     OTA_CALLBACK(on_start)=NULL,
     OTA_CALLBACK(on_end)=NULL,
     OTA_CALLBACK_PROGRESS(on_progress)=NULL,
@@ -34,16 +34,17 @@ public:
     
   ~OTA(void);
 
-  bool          connected(void);
+  ino_bool    connected(void);
   
-  bool          init(const char* wifi_ssid, const char* wifi_password, const bool wait=false);
-  bool          loop(void);
+  ino_bool    init(const char* wifi_ssid, const char* wifi_password,
+                   const ino_bool wait=false);
+  ino_bool    loop(void);
 
 private:
-  bool                m_initialiazed;
+  ino_bool            m_initialiazed;
   const char*         m_host;
   const char*         m_password;
-  const uint16_t      m_port;
+  const ino_u16       m_port;
   
   OTA_CALLBACK(m_on_start);
   OTA_CALLBACK(m_on_end);
@@ -53,4 +54,4 @@ private:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_OTA_H__*/
+#endif    /*__INO_OTA_H*/
