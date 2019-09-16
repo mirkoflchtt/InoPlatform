@@ -22,20 +22,20 @@
 
 INO_NAMESPACE
 
-uint16_t defaultReadPin(const uint8_t pin)
+ino_u16 defaultReadPin(const ino_u8 pin)
 {
   return digitalRead(pin);
 }
 
 AdvButton::AdvButton(
-  const uint8_t pin,
-  const uint8_t offState,
+  const ino_u8 pin,
+  const ino_u8 offState,
   void (*OnKeyPress)(AdvButton*),
   void (*OnKeyDown)(AdvButton*),
   void (*OnKeyUp)(AdvButton*),
   functionReadPin funcReadPin,
-  const uint16_t repeat,
-  const uint16_t startDelay) :
+  const ino_u16 repeat,
+  const ino_u16 startDelay) :
 m_funcReadPin(NULL),
 m_lastChange(clock_ms()),
 m_offState(offState),
@@ -55,7 +55,7 @@ m_debounceTime(100)
 void AdvButton::check(void)
 {
   // determine current pin state
-  const uint16_t cur = m_funcReadPin(m_pin);
+  const ino_u16 cur = m_funcReadPin(m_pin);
 
   /* button state changed */
   if ( m_lastState!=cur )
@@ -117,7 +117,7 @@ void AdvButton::check(void)
 
 delay_ts AdvButton::getPressTime(void)
 {
-  return ino::elapsed_ms(ino::clock_ms(), m_startPress);
+  return elapsed_ms(clock_ms(), m_startPress);
 }
 
 void AdvButton::setOnKeyPress(void (*f)(AdvButton*))
@@ -135,19 +135,19 @@ void AdvButton::setOnKeyUp(void (*f)(AdvButton*))
   m_funcKeyUp =  (*f);
 }
 
-void AdvButton::setRepeat(const uint16_t repeat)
+void AdvButton::setRepeat(const ino_u16 repeat)
 {
   m_repeat = repeat;
 }
 
-void AdvButton::setStartDelay(const uint16_t startDelay)
+void AdvButton::setStartDelay(const ino_u16 startDelay)
 {
   m_startDelay = startDelay;
 }
 
 void AdvButton::setPin(
-  const uint8_t pin,
-  const uint8_t offState,
+  const ino_u8 pin,
+  const ino_u8 offState,
   functionReadPin funcReadPin)
 {
   m_pin         = pin;

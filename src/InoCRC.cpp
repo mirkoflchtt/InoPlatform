@@ -3,29 +3,29 @@
 INO_NAMESPACE
 
 
-uint16_t    crc16_CCITT(
-  const uint8_t* data_start,
-  const uint8_t* data_end)
+ino_u16    crc16_CCITT(
+  const ino_u8* data_start,
+  const ino_u8* data_end)
 {
-  uint16_t crc = 0xFFFF;
-  uint8_t x;
+  ino_u16 crc = 0xFFFF;
+  ino_u8 x;
       
-  while ( data_start<data_end )
+  while (data_start<data_end)
   {
     x  = crc >> 8 ^ *data_start++;
     x ^= x>>4;
-    crc = (crc<<8) ^ ((uint16_t)(x<<12)) ^ ((uint16_t)(x<<5)) ^ ((uint16_t)x);
+    crc = (crc<<8) ^ ((ino_u16)(x<<12)) ^ ((ino_u16)(x<<5)) ^ ((ino_u16)x);
   }
   return crc;
 }
 
 
-uint16_t    fletcher16(
-  const uint8_t* data_start,
-  const uint8_t* data_end)
+ino_u16    fletcher16(
+  const ino_u8* data_start,
+  const ino_u8* data_end)
 {
-  uint16_t sum1 = 0;
-  uint16_t sum2 = 0;
+  ino_u16 sum1 = 0;
+  ino_u16 sum2 = 0;
 
   for( ; data_start<data_end; data_start++ )
   {
@@ -37,14 +37,14 @@ uint16_t    fletcher16(
 }           
 
           
-uint32_t    fletcher32(
-  const uint8_t* data_start,
-  const uint8_t* data_end)
+ino_u32    fletcher32(
+  const ino_u8* data_start,
+  const ino_u8* data_end)
 {
 #define SUM_REDUCTION(sum)    ( ((sum) & 0xffff) + ((sum) >> 16) )
-  uint32_t words      = (data_end-data_start);
-  const uint16_t* data;
-  uint32_t sum1, sum2;
+  ino_u32 words      = (data_end-data_start);
+  const ino_u16* data;
+  ino_u32 sum1, sum2;
   
   sum1 = sum2 = 0xffff - data_start[0];
   
@@ -53,11 +53,11 @@ uint32_t    fletcher32(
     
   words >>= 1;
  
-  data = (const uint16_t*)data_start;
+  data = (const ino_u16*)data_start;
   
-  while ( words )
+  while (words)
   {
-    uint32_t tlen = ((words >= 359) ? 359 : words);
+    ino_u32 tlen = ((words >= 359) ? 359 : words);
     words -= tlen;
     do {
       sum2 += sum1 += *data++;

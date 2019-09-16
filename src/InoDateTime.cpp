@@ -7,7 +7,7 @@
 
 INO_NAMESPACE
 
-String printDateTime(const ino::datetime_ts ts)
+String printDateTime(const datetime_ts ts)
 {
   const time_t now   = ts / 1000;
   char* datetime     = ctime(&now);

@@ -1,5 +1,5 @@
-#ifndef __INO_FIRMWARE_H__
-#define __INO_FIRMWARE_H__
+#ifndef __INO_FIRMWARE_H
+#define __INO_FIRMWARE_H
 #include "InoTypes.h"
 
 #define INO_FIRMWARE_SIGNATURE(yyyy, mm, dd, hh, min, minor) \
@@ -20,14 +20,14 @@
 
 INO_NAMESPACE
 
-typedef uint32_t       firmware_id;
+typedef ino_u32       firmware_id;
 
 
 INO_DECLARE_STATIC
 String getFirmwareVersion(const firmware_id fw)
 {
   String firmware;
-  uint16_t year=0, month=0, day=0, hour=0, min=0, minor=0; 
+  ino_u16 year=0, month=0, day=0, hour=0, min=0, minor=0; 
   
   INO_FIRMWARE_GET(fw, year, month, day, hour, min, minor)
   //firmware.concat(String("Platform-"));
@@ -46,4 +46,4 @@ String getFirmwareVersion(const firmware_id fw)
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_FIRMWARE_H__*/
+#endif    /*__INO_FIRMWARE_H*/

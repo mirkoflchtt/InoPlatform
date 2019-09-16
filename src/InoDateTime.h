@@ -14,7 +14,7 @@ INO_NAMESPACE
 
 typedef ino_u64        datetime_ts;
 
-String printDateTime(const ino::datetime_ts ts);
+String printDateTime(const datetime_ts ts);
 
 class DateTime {
 public:

@@ -16,6 +16,7 @@ ino_uptr                KEYWORD1
 
 ino_size                KEYWORD1
 ino_flags               KEYWORD1
+ino_char                KEYWORD1
 ino_bool                KEYWORD1
 ino_float               KEYWORD1
 

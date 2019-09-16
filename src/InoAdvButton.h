@@ -33,7 +33,7 @@ INO_NAMESPACE
 class AdvButton;
 
 typedef void  (*functionType)( AdvButton* );
-typedef uint16_t (*functionReadPin)( const uint8_t pin );
+typedef ino_u16 (*functionReadPin)( const ino_u8 pin );
 
 class AdvButton
 {
@@ -47,14 +47,14 @@ public:
   startDelay : amount of time between the initial keypress event and when to start repeating (optional)
   */
   AdvButton(
-    const uint8_t pin,
-    const uint8_t offState,
+    const ino_u8 pin,
+    const ino_u8 offState,
     void (*OnKeyPress)(AdvButton*),
     void (*OnKeyDown)(AdvButton*) = NULL,
     void (*OnKeyUp)(AdvButton*)   = NULL,
     functionReadPin funcReadPin   = NULL,
-    const uint16_t repeat     = 300,
-    const uint16_t startDelay   = 500 );
+    const ino_u16 repeat     = 300,
+    const ino_u16 startDelay   = 500);
 
   /* 
   Checks the state of the button and triggers events accordingly
@@ -80,25 +80,25 @@ public:
   /* 
   Sets the time (milliseconds) between each repeated keypress event
   */
-  void setRepeat( const uint16_t repeat );
+  void setRepeat(const ino_u16 repeat);
 
   /* 
   Sets the delay (milliseconds) before the keypress event is repeated
   */
-  void setStartDelay( const uint16_t startDelay );
+  void setStartDelay(const ino_u16 startDelay);
 
   /* 
   Changes the pin number 
   */
   void setPin(
-    const uint8_t pin,
-    const uint8_t offState,
-    functionReadPin funcReadPin=NULL );
+    const ino_u8 pin,
+    const ino_u8 offState,
+    functionReadPin funcReadPin=NULL);
   
   /* 
   Retrieve the amount of milliseconds the button was pressed,  only valid in keyevents
   */
-  ino::delay_ts getPressTime( void );
+  delay_ts getPressTime(void);
   
 private: 
   /* event callbacks */
@@ -107,16 +107,16 @@ private:
   functionType  m_funcKeyPress;
   functionReadPin m_funcReadPin;
   
-  ino::clock_ts m_startPress;
-  ino::clock_ts m_lastChange;
-  ino::clock_ts m_prevPres;
+  clock_ts   m_startPress;
+  clock_ts   m_lastChange;
+  clock_ts   m_prevPres;
   
-  uint8_t     m_pin;
-  uint16_t    m_offState;
-  uint16_t    m_lastState;
-  uint16_t    m_debounceTime;
-  uint16_t    m_repeat;
-  uint16_t    m_startDelay;
+  ino_u8     m_pin;
+  ino_u16    m_offState;
+  ino_u16    m_lastState;
+  ino_u16    m_debounceTime;
+  ino_u16    m_repeat;
+  ino_u16    m_startDelay;
 };
 
 INO_NAMESPACE_END

@@ -5,37 +5,37 @@
 using namespace ino;
 
 static
-bool readButton01(const uint8_t pin)
+bool readButton01(const ino_u8 pin)
 {
   const int v = analogRead(pin);
   return (v<=40);
 }
 
-bool readButton02(const uint8_t pin)
+bool readButton02(const ino_u8 pin)
 {
   const int v = analogRead(pin);
   return (v>40 && v<=90);
 }
 
-bool readButton03(const uint8_t pin)
+bool readButton03(const ino_u8 pin)
 {
   const int v = analogRead(pin);
   return (v>90 && v<=130);
 }
 
-bool readButton04(const uint8_t pin)
+bool readButton04(const ino_u8 pin)
 {
   const int v = analogRead(pin);
   return (v>130 && v<=170);
 }
 
-bool readButton05(const uint8_t pin)
+bool readButton05(const ino_u8 pin)
 {
   const int v = analogRead(pin);
   return (v>170 && v<=210);
 }
 
-bool readButton06(const uint8_t pin)
+bool readButton06(const ino_u8 pin)
 {
   const int v = analogRead(pin);
   return (v>210 && v<=250);

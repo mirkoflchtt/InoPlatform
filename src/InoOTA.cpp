@@ -88,7 +88,7 @@ ino_bool OTA::init(
 
   while (wait && (WiFi.status() != WL_CONNECTED)) {
     printf(".");
-    ino::wait_ms(500);
+    wait_ms(500);
   }
   printf(" \n");
   m_initialiazed = false;
