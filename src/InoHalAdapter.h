@@ -106,8 +106,8 @@ ino_bool trigger_event(
 
 INO_API_ENTRY
 delay_ts elapsed_ms(
-  const delay_ts ts,
-  const delay_ts last_ts);
+  const clock_ts ts,
+  const clock_ts last_ts);
 
 INO_API_ENTRY
 clock_ts clock_ms(void);
