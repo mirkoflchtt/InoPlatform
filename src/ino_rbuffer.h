@@ -15,8 +15,7 @@
 }
 
 #define INO_RBUFFER_DECLARE(_name, _capacity, _data_ptr) \
-  ino_rbuffer _name = INO_RBUFFER_INIT( \
-    _capacity, _data_ptr);
+  ino_rbuffer _name = INO_RBUFFER_INIT(_capacity, _data_ptr);
 
 
 /*** Ring Buffer Typedefs ******************************************************/
@@ -37,8 +36,10 @@ INO_API_DECLARE
 
 INO_API_ENTRY
 ino_u32 ino_rbuffer_init(
-    ino_rbuffer* b, const ino_rbuffer_idx capacity,
-    const ino_u16 stride, const ino_ptr data);
+  ino_rbuffer* b,
+  const ino_rbuffer_idx capacity,
+  const ino_u16 stride,
+  const ino_ptr data);
 
 INO_API_ENTRY
 void ino_rbuffer_clear(
@@ -70,15 +71,18 @@ ino_bool ino_rbuffer_is_full(
 
 INO_API_ENTRY
 ino_bool ino_rbuffer_push_force(
-  ino_rbuffer* b, const ino_handle elem);
+  ino_rbuffer* b,
+  const ino_handle elem);
 
 INO_API_ENTRY
 ino_bool  ino_rbuffer_push(
-  ino_rbuffer* b, const ino_handle elem);
+  ino_rbuffer* b,
+  const ino_handle elem);
 
 INO_API_ENTRY
 ino_bool ino_rbuffer_pop(
-  ino_rbuffer* b, ino_handle elem);
+  ino_rbuffer* b,
+  ino_handle elem);
 
 INO_API_ENTRY
 ino_handle ino_rbuffer_get_base_address(
@@ -90,11 +94,13 @@ ino_handle ino_rbuffer_get_end_address(
 
 INO_API_ENTRY
 ino_handle ino_rbuffer_get(
-  ino_rbuffer* b, const ino_u32 idx);
+  ino_rbuffer* b,
+  const ino_u32 idx);
 
 INO_API_ENTRY
 ino_handle ino_rbuffer_linearize(
-  ino_rbuffer* b, ino_handle temp_swap);
+  ino_rbuffer* b,
+  ino_handle temp_swap);
 
 INO_API_ENTRY
 ino_bool ino_rbuffer_clone(

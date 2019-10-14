@@ -10,6 +10,28 @@
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 
+#ifdef HAS_X86
+#include <stdio.h>
+class PubSubClient {
+public:
+  bool connected(void) { return true; }
+  void publish(const char* topic, const char* msg) {
+    printf("topic: %s msg: %s\n", topic, msg);
+  }
+};
+
+class Stream {
+public:
+  void print(const char* fmt, ...) {
+    va_list ap;
+    va_start(ap, fmt);
+    vprintf(fmt, ap);
+    va_end(ap);
+  }
+};
+
+#endif  /*HAS_X86*/
+
 #define INO_LOG_VERSION "1.0.0"
 
 /******************************************************************************/
@@ -92,7 +114,6 @@ void logSetQuiet(
 void logSetLevel(
   const LogLevel level);
 
-#ifndef HAS_X86
 void logMqttEnable(
   PubSubClient* mqtt, const char* mqtt_topic);
 
@@ -102,7 +123,6 @@ void logStreamEnable(
   Stream* stream);
 
 void logStreamDisable(void);
-#endif
 
 ino_u32 logMsg(
   const LogLevel level,

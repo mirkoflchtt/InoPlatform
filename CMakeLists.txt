@@ -22,8 +22,8 @@ endmacro()
 macro(install_shared)
 #if ( BUILD_SHARED_LIBS )
   install(TARGETS ${ARGN} EXPORT ino-targets
-          RUNTIME DESTINATION ${DEFAULT_INSTALL_PATH}/lib
-          LIBRARY DESTINATION ${DEFAULT_INSTALL_PATH}/lib)
+          LIBRARY DESTINATION ${DEFAULT_INSTALL_PATH}/lib
+          RUNTIME DESTINATION ${DEFAULT_INSTALL_PATH}/lib)
 #endif ()
 endmacro()
 
