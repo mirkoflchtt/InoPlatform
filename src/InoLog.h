@@ -1,5 +1,5 @@
-#ifndef __INO_LOG_H
-#define __INO_LOG_H
+#ifndef INO_LOG_H
+#define INO_LOG_H
 #ifndef HAS_X86
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
@@ -55,7 +55,7 @@ typedef ino_u8 LogLevel;
 
 //#define INO_HAS_LOG         LOG_TRACE
 
-#define INO_NO_LOG          INO_WRAP_FUNC(INO_NOP)
+#define INO_NO_LOG          /* INO_NO_LOG */
 
 #if (defined INO_HAS_LOG && (INO_HAS_LOG>=LOG_SUDO))
   #define INO_LOG_SUDO(...) \
@@ -114,15 +114,11 @@ void logSetQuiet(
 void logSetLevel(
   const LogLevel level);
 
-void logMqttEnable(
+void logSetMqtt(
   PubSubClient* mqtt, const char* mqtt_topic);
 
-void logMqttDisable(void);
-
-void logStreamEnable(
+void logSetStream(
   Stream* stream);
-
-void logStreamDisable(void);
 
 ino_u32 logMsg(
   const LogLevel level,
@@ -134,4 +130,4 @@ INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif   /*__INO_LOG_H*/
+#endif   /*INO_LOG_H*/

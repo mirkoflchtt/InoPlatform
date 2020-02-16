@@ -74,10 +74,11 @@ private:
 
 void  Log::setMQTT(PubSubClient* mqtt, const char* mqtt_topic)
 {
-  m_mqtt_topic  = (mqtt && mqtt_topic) ? mqtt_topic : NULL;
   m_mqtt        = (mqtt && mqtt_topic) ? mqtt : NULL;
+  m_mqtt_topic  = (m_mqtt) ? mqtt_topic : NULL;
+  
   if (m_mqtt) {
-    INO_LOG_INFO("#### [Module %s] Enabled MQTT Logging: topic %s ####", m_name, m_mqtt_topic);
+    INO_LOG_INFO("#### [Module %s] Enabled MQTT Logging: topic(%s) ####", m_name, m_mqtt_topic);
   } else {
     INO_LOG_INFO("#### [Module %s] Disabled MQTT Logging ####", m_name);
   }
@@ -102,17 +103,18 @@ ino_u32  Log::log(
   const char* fmt, va_list ap)
 {
   char buf[INO_LOG_BUFFER_SIZE];
+  buf[0] = 0;
 
-  if ( level>m_log_level ) {
+  if (level>m_log_level) {
     return 0;
   }
 
-  if ( m_quiet || !(m_mqtt || m_stream) ) {
+  if (m_quiet || !(m_mqtt || m_stream)) {
     return 0;
   }
     
 #ifdef INO_LOG_STRIP_FILE_PATH
-  if ( (file=strrchr(file, INO_LOG_STRIP_FILE_PATH)) ) {
+  if (file && (file=strrchr(file, INO_LOG_STRIP_FILE_PATH))) {
     file++;
   }
 #endif
@@ -125,36 +127,35 @@ ino_u32  Log::log(
   struct tm *lt = localtime(&t);
 
   written += strftime(buf, sizeof(buf), "[%H:%M:%S]", lt);
-  buf[written] = '\0';
+  buf[written] = 0;
 #endif
 
 #ifdef INO_LOG_USE_COLOR
   written += snprintf(buf+written, sizeof(buf)-written,
     "[%s][%s%-5s\x1b[0m \x1b[90m] %s:%d:\x1b[0m ",
-    m_name, level_colors[level], level_names[level], file, line);
+    m_name, level_colors[level], level_names[level],
+    ((file) ? file : ""), line);
 #else
   written += snprintf(buf+written, sizeof(buf)-written,
     "[%s][%-5s] %s:%d: ",
-    m_name, level_names[level], file, line);
+    m_name, level_names[level],
+    ((file) ? file : ""), line);
 #endif
 
   written += vsnprintf(buf+written, sizeof(buf)-written, fmt, ap);
-  buf[INO_LOG_BUFFER_SIZE-1] = '\0';
+  buf[written] = 0;
 
-  if ( m_mqtt && m_mqtt->connected() ) {
-    m_mqtt->publish(m_mqtt_topic, buf);
+  if (written>0) {
+    if (m_mqtt && m_mqtt->connected()) {
+      m_mqtt->publish(m_mqtt_topic, buf);
+    }
+
+    if (m_stream) {
+      m_stream->printf("%s" INO_CR, buf);
+    }
+
+    //printf("### written(%u)\r\n", written);
   }
-
-  if ( written<sizeof(buf)-3 ) {
-    written += snprintf(buf+written, sizeof(buf)-written, INO_CR);
-  }
-  buf[INO_LOG_BUFFER_SIZE-1] = '\0';
-
-  if ( m_stream ) {
-    m_stream->print(buf);
-  }
-
-  //printf("### written(%u)\r\n", written);
 
   return written;
 }
@@ -184,28 +185,16 @@ void logSetLevel(
   g_InoLog.setLevel(level);
 }
 
-void logMqttEnable(
+void logSetMqtt(
   PubSubClient* mqtt, const char* mqtt_topic)
 {
-  if ( !(mqtt && mqtt_topic) ) return;
   g_InoLog.setMQTT(mqtt, mqtt_topic);
 }
 
-void logMqttDisable(void)
-{
-  g_InoLog.setMQTT(NULL, NULL);
-}
-
-void logStreamEnable(
+void logSetStream(
   Stream* stream)
 {
-  if ( !stream ) return;
   g_InoLog.setStream(stream);
-}
-
-void logStreamDisable(void)
-{
-  g_InoLog.setStream(NULL);
 }
 
 ino_u32 logMsg(
