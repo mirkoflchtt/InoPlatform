@@ -23,8 +23,8 @@
 * - Declare the required event functions ( void OnKeyXXX(AdvButton* but) )
 * - See the comments below for more help
 */
-#ifndef __INO_ADVBUTTON_H__
-#define __INO_ADVBUTTON_H__
+#ifndef INO_ADVBUTTON_H
+#define INO_ADVBUTTON_H
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -121,4 +121,4 @@ private:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_ADVBUTTON_H__*/
+#endif    /*INO_ADVBUTTON_H*/

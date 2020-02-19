@@ -1,5 +1,5 @@
-#ifndef __INO_ASSERT_H__
-#define __INO_ASSERT_H__
+#ifndef INO_ASSERT_H
+#define INO_ASSERT_H
 #include "InoTypes.h"
 
 #ifdef MY_INO_ASSERT
@@ -15,4 +15,4 @@ INO_NAMESPACE
 
 INO_NAMESPACE_END
 
-#endif      /*__INO_ASSERT_H__*/
+#endif      /*INO_ASSERT_H*/

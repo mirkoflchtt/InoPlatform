@@ -1,9 +1,10 @@
-#ifndef __INO_PLATFORM_H
-#define __INO_PLATFORM_H
+#ifndef INO_PLATFORM_H
+#define INO_PLATFORM_H
 
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 #include "InoAssert.h"
+#include "InoBase64.h"
 #include "InoCRC.h"
 #include "InoDateTime.h"
 #include "InoEventHandler.h"
@@ -21,4 +22,4 @@
 #include "InoSensorTemperature.h"
 #endif
 
-#endif    /*__INO_PLATFORM_H*/
+#endif    /*INO_PLATFORM_H*/

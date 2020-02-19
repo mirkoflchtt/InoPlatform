@@ -1,5 +1,5 @@
-#ifndef __INO_LFSR_H
-#define __INO_LFSR_H
+#ifndef INO_LFSR_H
+#define INO_LFSR_H
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 
@@ -20,4 +20,4 @@ INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif   /*__INO_LFSR_H*/
+#endif   /*INO_LFSR_H*/

@@ -1,5 +1,5 @@
-#ifndef __INO_DATE_TIME_H
-#define __INO_DATE_TIME_H
+#ifndef INO_DATE_TIME_H
+#define INO_DATE_TIME_H
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -38,4 +38,4 @@ private:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_DATE_TIME_H*/
+#endif    /*INO_DATE_TIME_H*/

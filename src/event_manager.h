@@ -4,8 +4,8 @@
  * for Arduino by Igor Mikolic-Torreira 
  * (https://github.com/igormiktor/arduino-EventManager)
  */
-#ifndef __EVENT_MANAGER_H
-#define __EVENT_MANAGER_H
+#ifndef EVENT_MANAGER_H
+#define EVENT_MANAGER_H
 #pragma once
 
 #include "ino_dlist.h"
@@ -158,4 +158,4 @@ ino_u32 event_manager_flush(
 
 INO_NAMESPACE_END
 
-#endif    /*__EVENT_MANAGER_H*/
+#endif    /*EVENT_MANAGER_H*/

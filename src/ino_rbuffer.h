@@ -1,5 +1,5 @@
-#ifndef __INO_RBUFFER_H
-#define __INO_RBUFFER_H
+#ifndef INO_RBUFFER_H
+#define INO_RBUFFER_H
 #include "InoTypes.h"
 
 
@@ -116,4 +116,4 @@ int ino_builtin_tests_ino_rbuffer(
 
 INO_API_DECLARE_END
 
-#endif    /*__INO_RBUFFER_H*/
+#endif    /*INO_RBUFFER_H*/

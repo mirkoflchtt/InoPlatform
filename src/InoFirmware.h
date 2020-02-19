@@ -1,5 +1,5 @@
-#ifndef __INO_FIRMWARE_H
-#define __INO_FIRMWARE_H
+#ifndef INO_FIRMWARE_H
+#define INO_FIRMWARE_H
 #include "InoTypes.h"
 
 #define INO_FIRMWARE_SIGNATURE(yyyy, mm, dd, hh, min, minor) \
@@ -46,4 +46,4 @@ String getFirmwareVersion(const firmware_id fw)
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_FIRMWARE_H*/
+#endif    /*INO_FIRMWARE_H*/

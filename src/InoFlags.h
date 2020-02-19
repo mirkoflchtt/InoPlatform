@@ -1,5 +1,5 @@
-#ifndef __INO_FLAGS_H
-#define __INO_FLAGS_H
+#ifndef INO_FLAGS_H
+#define INO_FLAGS_H
 #include "InoTypes.h"
 
 #define INO_FLAG_CLEAR(flags)          { flags = ino::FLAG_NONE; }
@@ -14,4 +14,4 @@ typedef ino_flags       flags;
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_FLAGS_H*/
+#endif    /*INO_FLAGS_H*/

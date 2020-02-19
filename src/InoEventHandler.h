@@ -1,5 +1,5 @@
-#ifndef __INO_EVENT_HANDLER_H__
-#define __INO_EVENT_HANDLER_H__
+#ifndef INO_EVENT_HANDLER_H
+#define INO_EVENT_HANDLER_H
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 
@@ -43,4 +43,4 @@ INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_EVENT_HANDLER_H__*/
+#endif    /*INO_EVENT_HANDLER_H*/

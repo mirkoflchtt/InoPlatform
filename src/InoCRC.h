@@ -1,5 +1,5 @@
-#ifndef __INO_CRC_H
-#define __INO_CRC_H
+#ifndef INO_CRC_H
+#define INO_CRC_H
 #include "InoTypes.h"
 
 INO_NAMESPACE
@@ -30,4 +30,4 @@ ino_u32    fletcher32(
           
 INO_NAMESPACE_END
 
-#endif    /*__INO_CRC_H*/
+#endif    /*INO_CRC_H*/

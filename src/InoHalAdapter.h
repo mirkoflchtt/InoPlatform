@@ -1,5 +1,5 @@
-#ifndef __INO_HAL_ADAPTER_H
-#define __INO_HAL_ADAPTER_H
+#ifndef INO_HAL_ADAPTER_H
+#define INO_HAL_ADAPTER_H
 #include <Arduino.h>
 #include "InoTypes.h"
 
@@ -125,4 +125,4 @@ INO_API_DECLARE_END
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_HAL_ADAPTER_H*/
+#endif    /*INO_HAL_ADAPTER_H*/

@@ -1,5 +1,5 @@
-#ifndef __INO_DLIST_H
-#define __INO_DLIST_H
+#ifndef INO_DLIST_H
+#define INO_DLIST_H
 #include "InoTypes.h"
 #include "InoAssert.h"
 
@@ -193,4 +193,4 @@ ino_u32 ino_dlist_size(const ino_dlist* head)
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_DLIST_H*/
+#endif    /*INO_DLIST_H*/

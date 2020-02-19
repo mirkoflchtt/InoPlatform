@@ -1,5 +1,5 @@
-#ifndef __INO_OTA_H
-#define __INO_OTA_H
+#ifndef INO_OTA_H
+#define INO_OTA_H
 #include <ESP8266WiFi.h>
 #include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
@@ -54,4 +54,4 @@ private:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_OTA_H*/
+#endif    /*INO_OTA_H*/

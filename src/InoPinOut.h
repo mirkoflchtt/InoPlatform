@@ -1,5 +1,5 @@
-#ifndef __INO_PIN_OUT
-#define __INO_PIN_OUT
+#ifndef INO_PIN_OUT
+#define INO_PIN_OUT
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -29,4 +29,4 @@ private:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_PIN_OUT*/
+#endif    /*INO_PIN_OUT*/
