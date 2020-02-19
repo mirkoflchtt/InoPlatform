@@ -1,5 +1,5 @@
-#ifndef __INO_TYPES_H
-#define __INO_TYPES_H
+#ifndef INO_TYPES_H
+#define INO_TYPES_H
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -29,7 +29,7 @@
 #define INO_STATIC              static
 
 #define INO_NOP                 /* INO_NOP */
-#define INO_WRAP_FUNC(fn_)      do { fn_ } while (0);
+#define INO_WRAP_FUNC(fn)       do { fn } while (0);
 
 #define INO_TO_CSTRING(string)  (string.c_str())
 
@@ -38,8 +38,8 @@
 
 #define INO_CR                  "\r\n"
 
-#define INO_UNUSED(x_) \
-  (void)(x_);
+#define INO_UNUSED(x) \
+  (void)(x);
 
 #define INO_MIN(x, y) \
   (((x)<(y)) ? (x) : (y))
@@ -61,11 +61,11 @@
   __VA_ARGS__
 
 /******************************************************************************/
-#define INO_ARRAY_COUNT(array_) \
-  ( sizeof(array_)/sizeof((array_)[0]) )
+#define INO_ARRAY_COUNT(array) \
+  ( sizeof(array)/sizeof((array)[0]) )
 
-#define INO_ARRAY_STATIC(size_, type_, ...) \
-  (type_[size_]) { __VA_ARGS__ } 
+#define INO_ARRAY_STATIC(size, type, ...) \
+  (type[size]) { __VA_ARGS__ } 
 
 /******************************************************************************/
 #define INO_COLOR_BLACK            "\x1b[30m"
@@ -113,6 +113,8 @@ typedef uint64_t        ino_u64;
 
 typedef int32_t         ino_diff_ts;
 
+typedef int32_t         ino_error;
+
 INO_NAMESPACE
 
 typedef uint32_t        clock_ts;
@@ -120,4 +122,4 @@ typedef uint32_t        delay_ts;
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_TYPES_H*/
+#endif    /*INO_TYPES_H*/

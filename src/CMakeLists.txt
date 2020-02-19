@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(LIB_CPP_SOURCES
     InoAdvButton.cpp
+    InoBase64.cpp
     InoCRC.cpp
     InoDateTime.cpp
     InoEventHandler.cpp
