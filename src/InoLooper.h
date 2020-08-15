@@ -4,6 +4,8 @@
 #include "InoTypes.h"
 #include "InoFlags.h"
 
+#include <Ticker.h>
+
 INO_NAMESPACE
 
 typedef ino_bool (*looper_loop_fn)(ino_handle fn_arg);
