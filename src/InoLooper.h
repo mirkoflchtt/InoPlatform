@@ -4,6 +4,7 @@
 #include <Ticker.h>
 
 #include "InoMyConfig.h"
+#include "InoAssert.h"
 #include "InoTypes.h"
 #include "InoFlags.h"
 
@@ -35,14 +36,18 @@ private:
     LoopEntry(looper_loop_fn fn, ino_handle fn_arg, const ino_interval interval_ms) :
       m_fn(fn),
       m_fn_arg(fn_arg),
-      m_ticker()
+      m_ticker(NULL)
     {
       INO_FLAG_CLEAR(m_flags)
+
       if (interval_ms>0) {
+        m_ticker = new Ticker();
+        INO_ASSERT(m_ticker)
+      }
+      
+      if (m_ticker) {
         INO_FLAG_SET(m_flags, 0x1)
-        m_ticker.attach_ms(interval_ms, trigger);
-      } else {
-        INO_FLAG_SET(m_flags, 0x2)
+        m_ticker->attach_ms(interval_ms, trigger);
       }
     }
 
@@ -58,7 +63,7 @@ private:
 
     ino_bool loop(void)
     {
-      if (INO_FLAG_GET(m_flags, 0x3)) {
+      if (!m_ticker || INO_FLAG_GET(m_flags, 0x1)) {
         INO_FLAG_UNSET(m_flags, 0x1)
         return m_fn(m_fn_arg);
       }
@@ -69,7 +74,7 @@ private:
     looper_loop_fn              m_fn;
     ino_handle                  m_fn_arg;
     static ino_flags            m_flags;
-    Ticker                      m_ticker;
+    Ticker*                     m_ticker;
   };
 
   std::vector<LoopEntry>        m_loop_fn;
