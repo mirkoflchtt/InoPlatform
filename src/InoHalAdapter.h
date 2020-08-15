@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include "InoTypes.h"
 
-#define CLOCK_MAX_VALUE     (~((clock_ts)0))
+#define CLOCK_MAX_VALUE     (~((ino_timestamp)0))
 
 //#define CLOCK_FMT       "0x%08x"
 #define CLOCK_FMT       "%u"
@@ -100,26 +100,26 @@ static volatile uint32_t g_interrupt_state = 0x0;
 
 INO_API_ENTRY
 ino_bool trigger_event(
-  const clock_ts ts,
-  const clock_ts last_ts,
-  const delay_ts interval_ts);
+  const ino_timestamp ts,
+  const ino_timestamp last_ts,
+  const ino_interval interval_ts);
 
 INO_API_ENTRY
-delay_ts elapsed_ms(
-  const clock_ts ts,
-  const clock_ts last_ts);
+ino_interval elapsed_ms(
+  const ino_timestamp ts,
+  const ino_timestamp last_ts);
 
 INO_API_ENTRY
-clock_ts clock_ms(void);
+ino_timestamp clock_ms(void);
 
 INO_API_ENTRY
-clock_ts clock_us(void);
+ino_timestamp clock_us(void);
 
 INO_API_ENTRY
-void wait_ms(const delay_ts ts);
+void wait_ms(const ino_interval ts);
 
 INO_API_ENTRY
-void wait_us(const delay_ts ts);
+void wait_us(const ino_interval ts);
 
 INO_API_DECLARE_END
 

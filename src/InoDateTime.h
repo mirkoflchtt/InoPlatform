@@ -31,7 +31,7 @@ private:
   void          handle_overflow(void);
 
   datetime_ts   m_base_ms;
-  clock_ts      m_last_ts;
+  ino_timestamp m_last_ts;
   ino_u32       m_epoch_ts;
   ino_i8        m_timezone;
 };

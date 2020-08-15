@@ -1,10 +1,11 @@
 #ifndef INO_LOOPER_H
 #define INO_LOOPER_H
+#include <vector>
+#include <Ticker.h>
+
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 #include "InoFlags.h"
-
-#include <Ticker.h>
 
 INO_NAMESPACE
 

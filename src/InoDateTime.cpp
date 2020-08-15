@@ -38,7 +38,7 @@ ino_u32 DateTime::epoch_ts(void)
 
 void DateTime::handle_overflow(void)
 {
-  const clock_ts ts = clock_ms();
+  const ino_timestamp ts = clock_ms();
   if ( ts<m_last_ts ) {
     m_base_ms += 1;
     m_base_ms += CLOCK_MAX_VALUE;
@@ -50,7 +50,7 @@ void DateTime::handle_overflow(void)
 void DateTime::set_base_ts(
   const datetime_ts base_ms, const ino_i8 timezone)
 {
-  const clock_ts ts = clock_ms();
+  const ino_timestamp ts = clock_ms();
   const datetime_ts offset = (datetime_ts)timezone * MSEC_IN_A_HOUR - ts;
   
   m_timezone = timezone;

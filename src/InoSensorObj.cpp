@@ -8,7 +8,7 @@ INO_NAMESPACE
 SensorObj::SensorObj(
   const ino_u8 pin,
   const ino_u8 type,
-  const delay_ts interval) :
+  const ino_interval interval) :
 m_pin(pin),
 m_type(type),
 m_interval(interval),
@@ -26,7 +26,7 @@ ino_bool SensorObj::trigger(
     return false;
   }
 
-  const clock_ts ts = clock_ms();
+  const ino_timestamp ts = clock_ms();
   //if (ts < m_last_ts+m_interval) {
   if ( !trigger_event(ts, m_last_ts, m_interval) ) {
     m_state &= (~STATE_TRIGGERED);
@@ -44,7 +44,7 @@ ino_bool SensorObj::trigger(
 }
 
 void SensorObj::rearm(
-  delay_ts interval)
+  ino_interval interval)
 {
   interval  = (interval>0) ? interval : m_interval;
   m_last_ts = clock_ms();
@@ -53,7 +53,7 @@ void SensorObj::rearm(
 }
 
 void SensorObj::setInterval(
-  const delay_ts interval)
+  const ino_interval interval)
 {
   m_interval = interval;
   m_state   = (interval>0) ? (m_state | (STATE_ENABLE))

@@ -32,10 +32,8 @@ ino_u16                 KEYWORD1
 ino_u32                 KEYWORD1
 ino_u64                 KEYWORD1
 ino_diff_ts             KEYWORD1
-
-flags                   KEYWORD1
-clock_ts                KEYWORD1
-delay_ts                KEYWORD1
+ino_timestamp           KEYWORD1
+ino_interval            KEYWORD1
 
 Comm					KEYWORD1
 

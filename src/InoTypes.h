@@ -119,9 +119,6 @@ typedef uint32_t        ino_interval;
 
 INO_NAMESPACE
 
-typedef uint32_t        clock_ts;
-typedef uint32_t        delay_ts;
-
 INO_NAMESPACE_END
 
 #endif    /*INO_TYPES_H*/

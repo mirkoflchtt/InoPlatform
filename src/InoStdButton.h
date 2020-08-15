@@ -28,7 +28,7 @@ public:
 
 protected:
   ino_bool         m_was_pressed;        // previous state
-  clock_ts         m_pressed_start;      // start time when 1st pressed
+  ino_timestamp    m_pressed_start;      // start time when 1st pressed
 
   const ino_u8     m_pin;                // pin to which button is connected
   const ino_u16    m_longpress_msec;     // longpress duration

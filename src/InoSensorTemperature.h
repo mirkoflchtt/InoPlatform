@@ -25,10 +25,10 @@ public:
     const ino_u8 type,
     OnUpdateTemperatureCallback callback,
     const ino_handle caller,
-    const delay_ts interval=MY_INO_SENSOR_UPDATE_TEMPERATURE_INTERVAL,     // in seconds
+    const ino_interval interval=MY_INO_SENSOR_UPDATE_TEMPERATURE_INTERVAL,     // in seconds
     const ino_bool celsius=true,
     const ino_u8 rearm_count=8,
-    const delay_ts rearm_interval=5);        // in seconds
+    const ino_interval rearm_interval=5);        // in seconds
   
   ino_bool      loop(void);
   
@@ -36,7 +36,7 @@ private:
   DHT                         m_sensor;
   OnUpdateTemperatureCallback m_callback;
   const ino_handle            m_caller;
-  delay_ts                    m_rearm_interval;
+  ino_interval                m_rearm_interval;
   ino_u8                      m_rearm_count;
   ino_u8                      m_count;
 };

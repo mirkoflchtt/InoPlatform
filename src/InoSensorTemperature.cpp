@@ -10,10 +10,10 @@ SensorTemperature::SensorTemperature(
   const ino_u8 type,
   OnUpdateTemperatureCallback callback,
   const ino_handle caller,
-  const delay_ts interval,
+  const ino_interval interval,
   const ino_bool celsius,
   const ino_u8 rearm_count,
-  const delay_ts rearm_interval) :
+  const ino_interval rearm_interval) :
 SensorObj(pin, type, interval*1000U),
 m_sensor(pin, type),
 m_callback(callback),

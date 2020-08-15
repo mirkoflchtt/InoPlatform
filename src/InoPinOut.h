@@ -22,9 +22,9 @@ public:
   void      toggle(void);
   
 private:
-  ino_bool    m_swap_high_low;
-  ino_u16     m_state;
-  clock_ts    m_start;
+  ino_bool      m_swap_high_low;
+  ino_u16       m_state;
+  ino_timestamp m_start;
 };
 
 INO_NAMESPACE_END

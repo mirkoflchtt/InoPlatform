@@ -60,7 +60,7 @@ void AdvButton::check(void)
   /* button state changed */
   if ( m_lastState!=cur )
   {
-    const clock_ts ts = clock_ms();
+    const ino_timestamp ts = clock_ms();
     //if ( ts<m_lastChange+m_debounceTime ) {
     if ( !trigger_event(ts, m_lastChange, m_debounceTime) ) {
       return;
@@ -97,7 +97,7 @@ void AdvButton::check(void)
     /* is repeating enabled? */
     if ( (m_repeat>0) && (m_funcKeyPress) )
     {
-      const clock_ts ts = clock_ms();
+      const ino_timestamp ts = clock_ms();
       /* is the startdelay passed? */
       //if ( ts>=m_startPress+m_startDelay ) {
       if ( trigger_event(ts, m_startPress, m_startDelay) ) {
@@ -115,7 +115,7 @@ void AdvButton::check(void)
   }
 }
 
-delay_ts AdvButton::getPressTime(void)
+ino_interval AdvButton::getPressTime(void)
 {
   return elapsed_ms(clock_ms(), m_startPress);
 }

@@ -32,7 +32,7 @@ StdButtonEvent StdButton::check(void)
 {
   const ino_bool now_pressed = m_read_func(m_pin);
   StdButtonEvent event   = EV_NONE;
-  const clock_ts  ts     = clock_ms();
+  const ino_timestamp ts = clock_ms();
   
   /* button was released */
   if ( (!now_pressed) && m_was_pressed ) {

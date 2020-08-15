@@ -1,6 +1,3 @@
-//#include <stdio.h>
-#include <vector>
-#include <Ticker.h>
 #include "InoLooper.h"
 #include "InoHalAdapter.h"
 

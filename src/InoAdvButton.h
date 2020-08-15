@@ -98,7 +98,7 @@ public:
   /* 
   Retrieve the amount of milliseconds the button was pressed,  only valid in keyevents
   */
-  delay_ts getPressTime(void);
+  ino_interval getPressTime(void);
   
 private: 
   /* event callbacks */
@@ -107,9 +107,9 @@ private:
   functionType  m_funcKeyPress;
   functionReadPin m_funcReadPin;
   
-  clock_ts   m_startPress;
-  clock_ts   m_lastChange;
-  clock_ts   m_prevPres;
+  ino_timestamp   m_startPress;
+  ino_timestamp   m_lastChange;
+  ino_timestamp   m_prevPres;
   
   ino_u8     m_pin;
   ino_u16    m_offState;

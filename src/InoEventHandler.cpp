@@ -138,24 +138,25 @@ ino_bool EventHandler::init(
 ino_bool EventHandler::loop(
   const ino_u32 delay_ms)
 {
-  const clock_ts _end = clock_ms() + delay_ms;
+  const ino_timestamp _start = clock_ms();
   ino_bool ok = true;
   
   event_manager_pop_event(&m_manager, HIGH_PRIORITY_QUEUE);
 
-  if ( m_state & STATE_TIMER_TRIGGER ) {
+  if (m_state & STATE_TIMER_TRIGGER) {
     m_state &= (~STATE_TIMER_TRIGGER);
     event_manager_pop_event(&m_manager, LOW_PRIORITY_QUEUE);
   }
 
-  for ( std::vector<LoopEntry>::iterator it=m_loop_fn.begin(); 
-        it!=m_loop_fn.end(); it++ ) {
-    ok &= it->m_fn(it->m_fn_arg);
+  for (std::vector<LoopEntry>::iterator it=m_loop_fn.begin(); 
+       it!=m_loop_fn.end(); it++ )
+  {
+       ok &= it->m_fn(it->m_fn_arg);
   }
 
-  const clock_ts _now = clock_ms();
-  if ( event_manager_queue_is_empty(&m_manager, HIGH_PRIORITY_QUEUE) && (_end>_now) ) {
-    wait_ms(_end-_now);
+  const ino_interval _elapsed = elapsed_ms(clock_ms(), _start);
+  if (event_manager_queue_is_empty(&m_manager, HIGH_PRIORITY_QUEUE) && (_elapsed<delay_ms) ) {
+    wait_ms(delay_ms-_elapsed);
   }
 
   return ok;
