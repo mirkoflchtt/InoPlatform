@@ -1,5 +1,5 @@
-#ifndef __INO_SENSOR_OBJ_H
-#define __INO_SENSOR_OBJ_H
+#ifndef INO_SENSOR_OBJ_H
+#define INO_SENSOR_OBJ_H
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -27,4 +27,4 @@ protected:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_SENSOR_OBJ_H*/
+#endif    /*INO_SENSOR_OBJ_H*/

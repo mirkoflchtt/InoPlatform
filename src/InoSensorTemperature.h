@@ -1,5 +1,5 @@
-#ifndef __INO_SENSOR_TEMPERATURE_H
-#define __INO_SENSOR_TEMPERATURE_H
+#ifndef INO_SENSOR_TEMPERATURE_H
+#define INO_SENSOR_TEMPERATURE_H
 #include <DHT.h>
 #include "InoSensorObj.h"
 
@@ -43,4 +43,4 @@ private:
 
 INO_NAMESPACE_END
 
-#endif    /*__INO_SENSOR_TEMPERATURE_H*/
+#endif    /*INO_SENSOR_TEMPERATURE_H*/

@@ -1,5 +1,5 @@
-#ifndef __INO_STD_BUTTON
-#define __INO_STD_BUTTON
+#ifndef INO_STD_BUTTON
+#define INO_STD_BUTTON
 #include "InoTypes.h"
 #include "InoHalAdapter.h"
 
@@ -40,5 +40,5 @@ protected:
 
 INO_NAMESPACE_END
 
-#endif      /*__INO_STD_BUTTON*/
+#endif      /*INO_STD_BUTTON*/
 
