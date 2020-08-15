@@ -10,8 +10,7 @@
 INO_NAMESPACE
 
 enum { FLAG_NONE = 0x0 };
-typedef ino_flags       flags;
-
+typedef ino_i32       ino_flags;
 INO_NAMESPACE_END
 
 #endif    /*INO_FLAGS_H*/

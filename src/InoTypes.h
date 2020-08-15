@@ -96,7 +96,6 @@ typedef uintptr_t       ino_uptr;
 typedef bool            ino_bool;
 typedef float           ino_float;
 typedef uint32_t        ino_size;
-typedef uint32_t        ino_flags;
 typedef char            ino_char;
 
 typedef int             ino_int;
@@ -114,6 +113,9 @@ typedef uint64_t        ino_u64;
 typedef int32_t         ino_diff_ts;
 
 typedef int32_t         ino_error;
+
+typedef uint32_t        ino_timestamp;
+typedef uint32_t        ino_interval;
 
 INO_NAMESPACE
 
