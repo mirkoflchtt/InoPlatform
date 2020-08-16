@@ -13,23 +13,25 @@ ino_bool loop_fn(
 }
 
 INO_DECLARE_STATIC
-void listener_fn(
+ino_u32 listener_fn(
   const event_t* event,
   listener_handle_t cookie)
 {
   printf("## listener_fn called: event(%p) cookie(%p)\n", event, cookie);
   printf("     event: code(%u) cookie(%p) ts(%u)\n",
     event->code, event->cookie, event->timestamp);
+  return 0x0;
 }
 
 INO_DECLARE_STATIC
-void listener2_fn(
+ino_u32 listener2_fn(
   const event_t* event,
   listener_handle_t cookie)
 {
   printf("#### listener2_fn called: event(%p) cookie(%p)\n", event, cookie);
   printf("         event: code(%u) cookie(%p) ts(%u)\n",
     event->code, event->cookie, event->timestamp);
+  return 0x0;
 }
 
 int main(int argc, char* argv[])
@@ -74,3 +76,4 @@ int main(int argc, char* argv[])
   }
   return 0;
 }
+

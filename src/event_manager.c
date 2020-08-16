@@ -9,12 +9,13 @@
  * A dummy listener func called when no listener is set
  */
 static inline
-void dummy_listener(
+ino_u32 dummy_listener(
   const event_t* event,
   listener_handle_t cookie)
 {
   (void)(event);
   (void)(cookie);
+  return 0x0;
 }
 
 /***** event queues ***********************************************************/

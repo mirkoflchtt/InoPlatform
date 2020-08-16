@@ -11,5 +11,7 @@ int main(int argc, char* argv[])
   }
   printf(INO_COLOR_RED "KO!\n" INO_COLOR_OFF);
   return -1;
+#else
+  return 0;
 #endif
 }

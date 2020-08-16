@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project(InoPlatformTests)
 
 set(TESTS_DEPS
-    InoPlatform
+    InoPlatformStatic
     m)
 
 add_executable(test_ino_rbuffer test_ino_rbuffer.c)

@@ -59,6 +59,9 @@ endmacro(use_c11)
 option(WITH_CODE_VERSIONING " Enable code versioning during compilation " ON)
 message("-- Enable code versioning DEFAULT: ${WITH_CODE_VERSIONING}")
 
+option(WITH_BUILTIN_TESTS " Enable builtin tests " ON)
+message("-- Enable builtin test DEFAULT: ${WITH_BUILTIN_TESTS}")
+
 # Enable address sanitizer
 ## option(WITH_SANITIZER " Enable address sanitizer options " OFF)
 ## message("-- Enable address sanitizer options DEFAULT : ${WITH_SANITIZER}")
@@ -133,6 +136,10 @@ if (0)
                    "ino_platform_config.h" @ONLY)
     add_definitions("-DINO_HAS_PLATFORM_CONFIG")
   endif()
+endif()
+
+if (WITH_BUILTIN_TESTS)
+  add_definitions("-DHAS_INO_BUILTIN_TESTS")
 endif()
 
 message("-- CMAKE_SYSTEM_NAME      : ${CMAKE_SYSTEM_NAME}")
