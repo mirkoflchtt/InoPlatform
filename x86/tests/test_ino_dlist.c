@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
   my_elem array[64];
   INO_DLIST_DECLARE(head)
 
-  for ( ino_u32 i=0; i<INO_ARRAY_COUNT(array); i++ ) {
+  for (ino_u32 i=0; i<INO_ARRAY_COUNT(array); i++) {
     array[i].id = i;
     INO_DLIST_INIT(&array[i].list)
 

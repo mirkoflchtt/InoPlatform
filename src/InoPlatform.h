@@ -12,7 +12,7 @@
 #include "InoFlags.h"
 #include "InoLFSR.h"
 #include "InoLog.h"
-#include "InoLooper.h"
+#include "InoLoopHandler.h"
 #include "InoHalAdapter.h"
 #include "InoPinOut.h"
 #include "InoAdvButton.h"

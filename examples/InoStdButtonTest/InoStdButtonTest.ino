@@ -53,13 +53,13 @@ void logButtonEvent(
   const char* event_msg,
   const StdButtonEvent event)
 {
-  if ( event==EV_NONE )
+  if (event==EV_NONE)
     return;
     
   Serial.print(event_msg);
 
-    switch (event)
-    {
+  switch (event)
+  {
     case EV_SHORTPRESS:
       Serial.println(" EV_SHORTPRESS");
       break;
@@ -69,13 +69,12 @@ void logButtonEvent(
     default:
       Serial.println(" EV_TIMEOUT   ");
       break;
-    }
+  }
 }
 
 void setup(void)
 {
   Serial.begin(115200);
-  
   Serial.println("###### InoAnalogButtonTest Init Done ######");
 }
 

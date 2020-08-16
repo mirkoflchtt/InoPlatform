@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 {
 #ifdef HAS_INO_BUILTIN_TESTS
   printf("  [ino_builtin_tests_ino_rbuffer] : ");
-  if ( 0==ino_builtin_tests_ino_rbuffer(argc, argv) ) {
+  if (0==ino_builtin_tests_ino_rbuffer(argc, argv)) {
     printf(INO_COLOR_GREEN "OK!\n" INO_COLOR_OFF);
     return 0;
   }

@@ -23,28 +23,32 @@ INO_NAMESPACE
 
 /***** events *****************************************************************/
 typedef ino_u32        event_code_t;
+typedef ino_u32        event_payload_t;
 typedef ino_handle     event_handle_t;
-typedef ino_u32        event_time_t;
+typedef ino_timestamp  event_time_t;
 
 /*!
  * Structure implementing an event.
  */
-typedef struct event_t_ {
+typedef struct s_event_t {
   /*! Event code. */
-  event_code_t      code;
+  event_code_t        code;
 
   /*! Opaque cookie handle passed by the event to the listener. */
-  event_handle_t    cookie;
+  union {
+    event_handle_t    cookie;
+    event_payload_t   payload;
+  };
 
   /*! Timestamp when the event was generated. */
-  event_time_t      timestamp;
+  event_time_t        timestamp;
 } event_t;
 
 /***** event listeners ********************************************************/
-typedef ino_handle     listener_handle_t;
+typedef ino_handle    listener_handle_t;
 
 /*! Type for an event listener (a.k.a. callback function). */
-typedef void (*event_listener_fn_t)(
+typedef ino_u32 (*event_listener_fn_t)(
   const event_t* event, listener_handle_t cookie);
 
 /***** event queues ***********************************************************/
@@ -52,7 +56,7 @@ typedef void (*event_listener_fn_t)(
 /*!
  * Structure implementing an event queue.
  */
-typedef struct event_queue_t_ {
+typedef struct s_event_queue_t {
   /*! Array of events in the queue. */
   event_t events[MAX_EVENT_QUEUE_SIZE];
 
@@ -69,7 +73,7 @@ typedef struct event_queue_t_ {
 /*!
  * Structure implementing an event listener.
  */
-typedef struct event_listener_t_ {
+typedef struct s_event_listener_t {
   /*! Mask of all the event codes associated to this listener. */
   event_code_t event_codes;
 
