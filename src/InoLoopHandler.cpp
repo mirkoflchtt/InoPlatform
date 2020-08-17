@@ -54,8 +54,11 @@ ino_bool LoopEntry::is_equal(const LoopEntry& entry)
 ino_bool LoopEntry::loop(void)
 {
   if (!m_ticker || INO_FLAG_GET(m_flags, 0x1)) {
-    INO_FLAG_UNSET(m_flags, 0x1)
-    return m_cb(m_cb_arg);
+    const ino_bool ok = m_cb(m_cb_arg);
+    if (ok) {
+      INO_FLAG_UNSET(m_flags, 0x1)
+    }
+    return ok;
   }
   return true;
 }

@@ -4,6 +4,7 @@
 #include "Arduino.h"
 
 typedef void(*   callback_t) (void);
+typedef void(*   arg_callback_t) (void*);
 
 #ifdef __cplusplus
 
@@ -28,10 +29,24 @@ public:
  
   void  attach_ms(uint32_t milliseconds, callback_t callback)
   {
-    rearm    = true;
-    ts       = millis();
-    interval = milliseconds;
-    cb       = callback;
+    rearm     = true;
+    ts        = millis();
+    interval  = milliseconds;
+    cb        = callback;
+    cb_cookie = NULL;
+  }
+
+  void  attach(float seconds, arg_callback_t callback, void* cookie=NULL) {
+    attach_ms((uint32_t)(seconds * 1000 + 0.5f), callback, cookie);
+  }
+ 
+  void  attach_ms(uint32_t milliseconds, arg_callback_t callback, void* cookie=NULL)
+  {
+    rearm     = true;
+    ts        = millis();
+    interval  = milliseconds;
+    arg_cb    = callback;
+    cb_cookie = cookie;
   }
 
   void  once(float seconds, callback_t callback) {
@@ -52,7 +67,11 @@ private:
   bool       rearm;
   uint32_t   interval;
   uint32_t   ts;
-  callback_t cb;
+  union {
+    callback_t      cb;
+    arg_callback_t  arg_cb;
+  };
+  void*      cb_cookie;
 };
 
 extern "C" {

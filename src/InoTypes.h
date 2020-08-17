@@ -28,6 +28,9 @@
 #define INO_DECLARE_STATIC      static inline
 #define INO_STATIC              static
 
+#define INO_MALLOC(count, type) malloc((count)*sizeof(type))
+#define INO_FREE(ptr)           { if (ptr) free(ptr); ptr = NULL; }
+
 #define INO_NOP                 /* INO_NOP */
 #define INO_WRAP_FUNC(fn)       do { fn } while (0);
 
