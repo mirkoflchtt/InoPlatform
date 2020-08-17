@@ -17,7 +17,6 @@ set(LIB_CPP_SOURCES
     InoStdButton.cpp)
 
 set(LIB_C_SOURCES
-    event_manager.c
     ino_rbuffer.c
     log.c)
 
