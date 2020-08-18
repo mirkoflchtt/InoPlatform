@@ -53,6 +53,10 @@
 #define INO_CLAMP(value, min, max) \
   INO_MAX(min, INO_MIN(max, value))
 
+#define INO_ROUND(value) \
+  ((ino_i32)(((value)<0) ? ((value) + 0.5f) : ((value) - 0.5f)))
+
+
 #define INO_HANDLE_NULL         INO_HANDLE(0)
 #define INO_HANDLE(ptr)         ((ino_handle)(ptr))
 #define INO_PTR(ptr)            ((ino_ptr)(ptr))

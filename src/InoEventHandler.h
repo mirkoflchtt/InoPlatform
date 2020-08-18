@@ -5,17 +5,13 @@
 #include "InoMyConfig.h"
 #include "InoTypes.h"
 #include "InoFlags.h"
-
-
-#ifndef INO_HANDLER_TIMER_INTERVAL_MS
-#define INO_HANDLER_TIMER_INTERVAL_MS       (1000)
-#endif
+#include "InoEvents.h"
+#include "InoLog.h"
 
 INO_NAMESPACE
 
 class EventHandler {
 public:
-  typedef ino_i32 event_code;
 
   typedef enum {
     HIGH_PRIORITY       = 0x0,
@@ -24,15 +20,27 @@ public:
 
   class Event {
   public:
+    typedef ino_i32 event_code;
+    typedef ino_i32 event_param;
+
     Event(void);
-    Event(const event_code code, const ino_i32 value);
-    Event(const event_code code, const ino_u32 value);
-    Event(const event_code code, const ino_float value);
-    Event(const event_code code, const ino_handle cookie);
+    Event(
+      const event_code code);
+    Event(
+      const event_code code, const event_param param);
+    Event(
+      const event_code code, const event_param param, const ino_i32 value=0);
+    Event(
+      const event_code code, const event_param param, const ino_u32 value=0);
+    Event(
+      const event_code code, const event_param param, const ino_float value=0);
+    Event(
+      const event_code code, const event_param param, const ino_handle payload=NULL);
 
     event_code get_code(void) const;
+    event_param get_param(void) const;
     ino_timestamp get_timestamp(void) const;
-    ino_handle get_cookie(void) const;
+    ino_handle get_payload(void) const;
     ino_i32 get_i32(void) const;
     ino_u32 get_u32(void) const;
     ino_float get_float(void) const;
@@ -41,17 +49,19 @@ public:
 
   private:
     const event_code      m_code;
+    
+    const event_param     m_param;
 
     /*! Opaque cookie handle passed by the event to the listener. */
     const ino_handle      m_payload;
 
     /*! Timestamp when the event was generated. */
-    ino_timestamp         m_timestamp;
+    const ino_timestamp   m_timestamp;
   };
 
   class Listener {
   public:
-    typedef ino_u32 (*listener_cb)(
+    typedef void (*listener_cb)(
       const Event& event, ino_handle cookie);
 
     Listener(
@@ -59,7 +69,7 @@ public:
       ino_handle cookie=NULL);
 
     Listener(
-      const event_code event_codes,
+      const Event::event_code event_codes,
       listener_cb callback,
       ino_handle cookie=NULL);
 
@@ -68,17 +78,17 @@ public:
 
   private:
     enum {
-      FLAG_NONE = 0x0U,
-      FLAG_ALL = ~0x0U,
-      FLAG_DISABLE = 0x1U,
+      FLAG_NONE       = 0x0U,
+      FLAG_ALL        = ~0x0U,
+      FLAG_DISABLE    = 0x1U,
     };
 
-    event_code      m_event_codes;
-    ino_flags       m_flags;
+    Event::event_code      m_event_codes;
+    ino_flags              m_flags;
 
     /*! Listener function. */
-    listener_cb     m_callback;
-    ino_handle      m_cookie;
+    listener_cb            m_callback;
+    ino_handle             m_cookie;
 
   public:
     typedef struct s_listener_list {
@@ -103,6 +113,12 @@ public:
     const queue_type q,
     const Event& event);
 
+  ino_bool pushEventTemperatureHumidity(
+  const ino_u8 sensor_id, const ino_float temperature, const ino_float humidity);
+
+  ino_bool parseEventTemperatureHumidity(
+    const Event& event, ino_u8& sensor_id, ino_float& temperature, ino_float& humidity);
+
   ino_size getEventsNum(
     const queue_type q) const;
 
@@ -115,7 +131,7 @@ public:
   ino_size getListenersNum(void) const;
 
   ino_bool init(
-    const ino_interval interval_ms=INO_HANDLER_TIMER_INTERVAL_MS);
+    const ino_interval interval_ms);
 
   ino_bool loop(void);
 

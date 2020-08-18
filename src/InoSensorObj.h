@@ -3,12 +3,15 @@
 #include "InoTypes.h"
 #include "InoFlags.h"
 #include "InoHalAdapter.h"
+#include "InoEventHandler.h"
 
 INO_NAMESPACE
 
 class SensorObj {
 public:
   SensorObj(
+    EventHandler& event_handler,
+    const ino_u8 sensor_id,
     const ino_u8 pin,
     const ino_u8 type,
     const ino_interval interval);
@@ -18,6 +21,9 @@ protected:
   void        rearm(ino_interval interval=0);
   void        setInterval(const ino_interval interval);
 
+  EventHandler&           m_event_handler;
+  EventHandler::Listener  m_event_listener;
+  const ino_u8    m_sensor_id;
   const ino_u8    m_pin;
   const ino_u8    m_type;
   ino_interval    m_interval;

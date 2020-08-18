@@ -5,6 +5,7 @@
 
 #include "InoMyConfig.h"
 #include "InoTypes.h"
+#include "InoEvents.h"
 
 INO_NAMESPACE
 

@@ -6,9 +6,14 @@
 INO_NAMESPACE
 
 SensorObj::SensorObj(
+  EventHandler& event_handler,
+  const ino_u8 sensor_id,
   const ino_u8 pin,
   const ino_u8 type,
   const ino_interval interval) :
+m_event_handler(event_handler),
+m_event_listener(),
+m_sensor_id(sensor_id),
 m_pin(pin),
 m_type(type),
 m_interval(interval),
