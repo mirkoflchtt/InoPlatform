@@ -42,11 +42,14 @@ ino_bool SensorTemperature::loop(void)
     ino_float t     = m_sensor.readTemperature(isFahrenheit);
     
     if ( !(isnan(h)||isnan(t)) ) {
+      ino_bool ok = true;
       m_count = m_rearm_count;
 
       /* Optional step: compute heat index considering humidity factor */
       t = m_sensor.computeHeatIndex(t, h, isFahrenheit);
-      return m_event_handler.pushEventTemperatureHumidity(m_sensor_id, t, h);
+      ok &= m_event_handler.pushEventTemperature(m_sensor_id, t);
+      ok &= m_event_handler.pushEventHumidity(m_sensor_id, h);
+      return ok;
     } else {
       if (m_count>0) {
         INO_LOG_INFO("[Warning] SensorTemperature::loop() count(%u) rearm(%u)", 

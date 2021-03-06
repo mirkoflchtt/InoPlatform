@@ -12,7 +12,6 @@ INO_NAMESPACE
 
 class EventHandler {
 public:
-
   typedef enum {
     HIGH_PRIORITY       = 0x0,
     LOW_PRIORITY        = 0x1,
@@ -21,24 +20,21 @@ public:
   class Event {
   public:
     typedef ino_i32 event_code;
-    typedef ino_i32 event_param;
 
     Event(void);
+    
     Event(
       const event_code code);
     Event(
-      const event_code code, const event_param param);
+      const event_code code, const ino_i32 value);
     Event(
-      const event_code code, const event_param param, const ino_i32 value=0);
+      const event_code code, const ino_u32 value);
     Event(
-      const event_code code, const event_param param, const ino_u32 value=0);
+      const event_code code, const ino_float value);
     Event(
-      const event_code code, const event_param param, const ino_float value=0);
-    Event(
-      const event_code code, const event_param param, const ino_handle payload=NULL);
+      const event_code code, const ino_handle payload);
 
     event_code get_code(void) const;
-    event_param get_param(void) const;
     ino_timestamp get_timestamp(void) const;
     ino_handle get_payload(void) const;
     ino_i32 get_i32(void) const;
@@ -48,15 +44,18 @@ public:
     ino_bool trigger(const event_code code) const;
 
   private:
-    const event_code      m_code;
-    
-    const event_param     m_param;
+    const event_code        m_code;
 
     /*! Opaque cookie handle passed by the event to the listener. */
-    const ino_handle      m_payload;
+    union {
+      const ino_handle      m_payload;
+      const ino_i32         m_payload_i32;
+      const ino_u32         m_payload_u32;
+      const ino_float       m_payload_f32;
+    };
 
     /*! Timestamp when the event was generated. */
-    const ino_timestamp   m_timestamp;
+    const ino_timestamp     m_timestamp;
   };
 
   class Listener {
@@ -113,11 +112,17 @@ public:
     const queue_type q,
     const Event& event);
 
-  ino_bool pushEventTemperatureHumidity(
-  const ino_u8 sensor_id, const ino_float temperature, const ino_float humidity);
+  ino_bool pushEventTemperature(
+  const ino_u8 sensor_id, const ino_float temperature);
 
-  ino_bool parseEventTemperatureHumidity(
-    const Event& event, ino_u8& sensor_id, ino_float& temperature, ino_float& humidity);
+  ino_bool pushEventHumidity(
+  const ino_u8 sensor_id, const ino_float humidity);
+
+  ino_bool parseEventTemperature(
+    const Event& event, ino_u8& sensor_id, ino_float& temperature);
+
+  ino_bool parseEventHumidity(
+    const Event& event, ino_u8& sensor_id, ino_float& humidity);
 
   ino_size getEventsNum(
     const queue_type q) const;
@@ -129,6 +134,9 @@ public:
     Listener& listener);
 
   ino_size getListenersNum(void) const;
+
+  ino_size flushQueue(
+    const queue_type q);
 
   ino_bool init(
     const ino_interval interval_ms);
@@ -151,9 +159,6 @@ private:
     const Event& event);
 
   ino_size processQueueEvent(
-    const queue_type q);
-
-  ino_size flushQueue(
     const queue_type q);
 
   //event_manager_t       m_manager;

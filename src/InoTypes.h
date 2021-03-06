@@ -54,7 +54,7 @@
   INO_MAX(min, INO_MIN(max, value))
 
 #define INO_ROUND(value) \
-  ((ino_i32)(((value)<0) ? ((value) + 0.5f) : ((value) - 0.5f)))
+  ((ino_i32)(((value)<0) ? ((value) - 0.5f) : ((value) + 0.5f)))
 
 
 #define INO_HANDLE_NULL         INO_HANDLE(0)
