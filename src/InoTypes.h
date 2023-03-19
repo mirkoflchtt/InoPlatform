@@ -105,13 +105,11 @@ typedef float           ino_float;
 typedef uint32_t        ino_size;
 typedef char            ino_char;
 
-typedef int             ino_int;
 typedef int8_t          ino_i8;
 typedef int16_t         ino_i16;
 typedef int32_t         ino_i32;
 typedef int64_t         ino_i64;
 
-typedef unsigned int    ino_uint;
 typedef uint8_t         ino_u8;
 typedef uint16_t        ino_u16;
 typedef uint32_t        ino_u32;
