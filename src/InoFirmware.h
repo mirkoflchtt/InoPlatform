@@ -38,7 +38,7 @@ String getFirmwareVersion(const firmware_id fw)
   firmware.concat(String(year));  firmware.concat(F("-"));
   firmware.concat(String(month)); firmware.concat(F("-"));
   firmware.concat(String(day));   firmware.concat(F("-"));
-  firmware.concat(String(hour));  firmware.concat(F(":"));
+  firmware.concat(String(hour));  firmware.concat(F("."));
   firmware.concat(String(min));   firmware.concat(F("."));
   firmware.concat(String(minor));
   

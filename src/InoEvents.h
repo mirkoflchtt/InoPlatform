@@ -9,7 +9,8 @@ INO_NAMESPACE
 class Events {
 public:
   enum {
-    GOT_TEMPERATURE_HUMIDITY  = 0x1U,
+    GOT_TEMPERATURE           = 0x1U,
+    GOT_HUMIDITY              = 0x2U,
     EVENT_LAST                = 0x100U,
   };
 

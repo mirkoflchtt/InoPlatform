@@ -7,76 +7,52 @@
 #include "ino_dlist.h"
 #include "ino_rbuffer.h"
 
+#define INO_HANDLER_QUEUE_NUM                   (2)
 #define INO_HANDLER_FLAG_TIMER_TRIGGER          (0x1)
 
-#define INO_HANDLER_PAYLOAD_SET(value)          *(((ino_handle*)&(value)))
-#define INO_HANDLER_PAYLOAD_GET(payload, type)  *(((type*)&(payload)))
-#define INO_HANDLER_QUEUE(queue_id)             (((ino_rbuffer*)m_event_queue)+(queue_id))        
-#define INO_HANDLER_QUEUE_NUM                   (2)
 
-#define TO_DLIST(list)                          ((ino_dlist*)&(list))
+/****************************************************************************/
+#define INO_HANDLER_QUEUE(queue_id_) \
+  (((ino_rbuffer*)m_event_queue)+(queue_id_))
+
+#define TO_DLIST(list_) \
+  ((ino_dlist*)&(list_))
+
 
 INO_NAMESPACE
 
 /****************************************************************************/
-EventHandler::Event::Event(void) :
-m_code(0x0),
-m_param(0x0),
+EventHandler::Event::Event(const Event::event_code code) :
+m_code(code),
 m_payload(NULL),
 m_timestamp(clock_ms())
 {
 }
 
-EventHandler::Event::Event(
-  const Event::event_code code) :
+EventHandler::Event::Event(const Event::event_code code, const ino_i32 value) :
 m_code(code),
-m_param(0x0),
-m_payload(NULL),
+m_payload_i32(value),
 m_timestamp(clock_ms())
 {
 }
 
-EventHandler::Event::Event(
-  const Event::event_code code, const Event::event_param param) :
+EventHandler::Event::Event(const Event::event_code code, const ino_u32 value) :
 m_code(code),
-m_param(param),
-m_payload(NULL),
+m_payload_u32(value),
 m_timestamp(clock_ms())
 {
 }
 
-EventHandler::Event::Event(
-  const Event::event_code code, const Event::event_param param, const ino_i32 value) :
+EventHandler::Event::Event(const Event::event_code code, const ino_float value) :
 m_code(code),
-m_param(param),
-m_payload(INO_HANDLER_PAYLOAD_SET(value)),
+m_payload_f32(value),
 m_timestamp(clock_ms())
 {
 }
 
-EventHandler::Event::Event(
-  const Event::event_code code, const Event::event_param param, const ino_u32 value) :
+EventHandler::Event::Event(const Event::event_code code, const ino_handle payload) :
 m_code(code),
-m_param(param),
-m_payload(INO_HANDLER_PAYLOAD_SET(value)),
-m_timestamp(clock_ms())
-{
-}
-
-EventHandler::Event::Event(
-  const Event::event_code code, const Event::event_param param, const ino_float value) :
-m_code(code),
-m_param(param),
-m_payload(INO_HANDLER_PAYLOAD_SET(value)),
-m_timestamp(clock_ms())
-{
-}
-
-EventHandler::Event::Event(
-  const Event::event_code code, const Event::event_param param, const ino_handle payload) :
-m_code(code),
-m_param(param),
-m_payload(INO_HANDLER_PAYLOAD_SET(payload)),
+m_payload(payload),
 m_timestamp(clock_ms())
 {
 }
@@ -86,11 +62,6 @@ EventHandler::Event::event_code EventHandler::Event::get_code(void) const
   return m_code;
 }
 
-EventHandler::Event::event_param EventHandler::Event::get_param(void) const
-{
-  return m_param;
-}
-
 ino_timestamp EventHandler::Event::get_timestamp(void) const
 {
   return m_timestamp;
@@ -98,22 +69,22 @@ ino_timestamp EventHandler::Event::get_timestamp(void) const
 
 ino_handle EventHandler::Event::get_payload(void) const
 {
-  return INO_HANDLER_PAYLOAD_GET(m_payload, ino_handle);
+  return m_payload;
 }
 
 ino_i32 EventHandler::Event::get_i32(void) const
 {
-  return INO_HANDLER_PAYLOAD_GET(m_payload, ino_i32);
+  return m_payload_i32;
 }
 
 ino_u32 EventHandler::Event::get_u32(void) const
 {
-  return INO_HANDLER_PAYLOAD_GET(m_payload, ino_u32);
+  return m_payload_u32;
 }
 
 ino_float EventHandler::Event::get_float(void) const
 {
-  return INO_HANDLER_PAYLOAD_GET(m_payload, ino_float);
+  return m_payload_f32;
 }
 
 ino_bool EventHandler::Event::trigger(const Event::event_code code) const
@@ -198,13 +169,10 @@ m_timer_low()
   INO_DLIST_INIT(&m_listeners)
   
   allocateEventQueues(event_queue_size, INO_HANDLER_QUEUE_NUM);
-  //event_manager_init(&m_manager, NULL, NULL);
 }
 
 EventHandler::~EventHandler(void)
 {
-  //event_manager_flush(&m_manager, false);
-
   flushQueue(HIGH_PRIORITY);
   flushQueue(LOW_PRIORITY);
 
@@ -228,22 +196,45 @@ ino_bool EventHandler::pushEvent(
   return pushQueueEvent(q, event);
 }
 
-ino_bool EventHandler::pushEventTemperatureHumidity(
-  const ino_u8 sensor_id, const ino_float temperature, const ino_float humidity)
+ino_bool EventHandler::pushEventTemperature(
+  const ino_u8 sensor_id, const ino_float temperature)
 {
-  ino_i32 payload = INO_ROUND(humidity * 100.0f) & 0xFFFF;
-  payload |= (INO_ROUND(temperature * 100.0f) << 16);
-  return pushEvent(LOW_PRIORITY, Event(Events::GOT_TEMPERATURE_HUMIDITY, sensor_id, payload));
+  const ino_i32 payload = ((INO_ROUND(temperature * 100.0f) << 8) | sensor_id);
+  // printf("  pushEventTemperature: id(%u) temp(%f) payload(%d)\n", sensor_id, temperature, payload);
+  return pushEvent(LOW_PRIORITY, Event(Events::GOT_TEMPERATURE, payload));
 }
 
-ino_bool EventHandler::parseEventTemperatureHumidity(
-  const Event& event, ino_u8& sensor_id, ino_float& temperature, ino_float& humidity)
+ino_bool EventHandler::pushEventHumidity(
+  const ino_u8 sensor_id, const ino_float humidity)
 {
-  if (event.get_code()==Events::GOT_TEMPERATURE_HUMIDITY)
+  const ino_i32 payload = ((INO_ROUND(humidity * 100.0f) << 8) | sensor_id);
+  // printf("  pushEventHumidity: id(%u) hum(%f) payload(%d)\n", sensor_id, humidity, payload);
+  return pushEvent(LOW_PRIORITY, Event(Events::GOT_HUMIDITY, payload));
+}
+
+ino_bool EventHandler::parseEventTemperature(
+  const Event& event, ino_u8& sensor_id, ino_float& temperature)
+{
+  if (event.get_code()==Events::GOT_TEMPERATURE)
   {
-    sensor_id = event.get_param();
-    humidity = (event.get_i32() & 0xFFFF) * 0.01f;
-    temperature = (event.get_i32() >> 16) * 0.01f;
+    const ino_i32 payload = event.get_i32();
+    sensor_id = (payload & 0xFF);
+    temperature = (payload >> 8) * 0.01f;
+    // printf("  parseEventTemperature: id(%u) temp(%f) payload(%d)\n", sensor_id, temperature, payload);
+    return true;
+  }
+  return false;
+}
+
+ino_bool EventHandler::parseEventHumidity(
+  const Event& event, ino_u8& sensor_id, ino_float& humidity)
+{
+  if (event.get_code()==Events::GOT_HUMIDITY)
+  {
+    const ino_i32 payload = event.get_i32();
+    sensor_id = (payload & 0xFF);
+    humidity = (payload >> 8) * 0.01f;
+    // printf("  parseEventHumidity: id(%u) hum(%f) payload(%d)\n", sensor_id, humidity, payload);
     return true;
   }
   return false;
@@ -351,24 +342,22 @@ ino_size EventHandler::popEvent(
 {
   ino_rbuffer* buffer = INO_HANDLER_QUEUE(q);
   Event event;
-  if (ino_rbuffer_pop(buffer, &event)) {
-    return sendEvent(event);
-  }
-  return 0;
+  ino_bool ok;
+  disable_interrupts();
+  ok = ino_rbuffer_pop(buffer, &event);
+  enable_interrupts();
+
+  return (ok) ? sendEvent(event) : 0;
 }
 
 ino_size EventHandler::sendEvent(
   const Event& event)
 {
   ino_size count = 0;
-  ino_bool triggered = false;
-
   INO_DLIST_FOR_EACH_OBJ_NEXT(l, &m_listeners, Listener, m_list)
   {
-    triggered = l->trigger(event);
-    count += (triggered) ? 1 : 0;
+    count += (l->trigger(event)) ? 1 : 0;
   }
-
   return count;
 }
 
@@ -377,11 +366,16 @@ ino_bool EventHandler::pushQueueEvent(
     const Event& event)
 {
   ino_rbuffer* buffer = INO_HANDLER_QUEUE(q);
+  ino_bool ok;
+
   disable_interrupts();
-  if (ino_rbuffer_is_full(buffer)) {
+  ok = ino_rbuffer_is_full(buffer);
+  enable_interrupts();
+  if (ok) {
     popEvent(q);
   }
-  const ino_bool ok = ino_rbuffer_push(buffer, INO_HANDLE(&event));
+  disable_interrupts();
+  ok = ino_rbuffer_push(buffer, INO_HANDLE(&event));
   enable_interrupts();
   return ok;
 }
@@ -389,10 +383,7 @@ ino_bool EventHandler::pushQueueEvent(
 ino_size EventHandler::processQueueEvent(
   const queue_type q)
 {
-  disable_interrupts();
-  const ino_size count = popEvent(q);
-  enable_interrupts();
-  return count;
+  return popEvent(q);
 }
 
 ino_size EventHandler::flushQueue(
@@ -405,6 +396,8 @@ ino_size EventHandler::flushQueue(
   return flushed;
 }
 
+#undef INO_HANDLER_QUEUE
+#undef INO_HANDLER_QUEUE_NUM
 #undef TO_DLIST
 
 INO_API_DECLARE
