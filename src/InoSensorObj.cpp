@@ -18,7 +18,7 @@ m_pin(pin),
 m_type(type),
 m_interval(interval),
 m_state(0x0),
-m_last_ts(clock_ms())
+m_last_ts(clock_ms() - interval)
 {
   m_state |= (interval>0) ? STATE_ENABLE : 0x0;
 }
@@ -32,7 +32,6 @@ ino_bool SensorObj::trigger(
   }
 
   const ino_timestamp ts = clock_ms();
-  //if (ts < m_last_ts+m_interval) {
   if ( !trigger_event(ts, m_last_ts, m_interval) ) {
     m_state &= (~STATE_TRIGGERED);
     return false;

@@ -29,34 +29,36 @@ ino_bool SensorTemperature::loop(void)
 
   if (trigger(true)) {
     const ino_bool isFahrenheit = (m_state & CELSIUS_FLAG) ? false : true;
+    ino_float t = NAN, h = NAN;
 
     /*
      * Reading temperature or humidity takes about 250 milliseconds!
      * Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
      */
+    if (m_sensor.read() == SMARTDHT_OK)
+    {
+      /* Read humidity */   
+      h = m_sensor.readHumidity();
 
-    /* Read humidity */    
-    const ino_float h = m_sensor.readHumidity();
+      /* Read temperature as Celsius or Farenheit */
+      t = m_sensor.readTemperature(isFahrenheit);
+    }
 
-    /* Read temperature as Celsius or Farenheit */
-    ino_float t     = m_sensor.readTemperature(isFahrenheit);
-    
-    if ( !(isnan(h)||isnan(t)) ) {
+    if ( isnan(h) || isnan(t) ) {
+      if (m_count>0) {
+        INO_LOG_INFO("[Warning] SensorTemperature::loop() count(%u) rearm(%u)", m_count, m_rearm_interval);
+        rearm(m_rearm_interval);
+        m_count--;
+      }
+    } else {
       ino_bool ok = true;
       m_count = m_rearm_count;
 
       /* Optional step: compute heat index considering humidity factor */
-      t = m_sensor.computeHeatIndex(t, h, isFahrenheit);
+      // t = m_sensor.computeHeatIndex(t, h, isFahrenheit);
       ok &= m_event_handler.pushEventTemperature(m_sensor_id, t);
       ok &= m_event_handler.pushEventHumidity(m_sensor_id, h);
       return ok;
-    } else {
-      if (m_count>0) {
-        INO_LOG_INFO("[Warning] SensorTemperature::loop() count(%u) rearm(%u)", 
-               m_count, m_rearm_interval);
-        rearm(m_rearm_interval);
-        m_count--;
-      }
     }
   }
   return false;

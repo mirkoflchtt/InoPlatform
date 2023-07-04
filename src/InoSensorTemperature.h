@@ -1,11 +1,9 @@
 #ifndef INO_SENSOR_TEMPERATURE_H
 #define INO_SENSOR_TEMPERATURE_H
-#include <DHT.h>
-
+#include <SmartDHT.h>
 #include "InoEventHandler.h"
 #include "InoSensorObj.h"
 
-#define AM2320_TYPE                 (AM2320)
 #define DHT22_TYPE                  (DHT22)    // DHT 22  (AM2302), AM2321
 
 INO_NAMESPACE
@@ -25,7 +23,7 @@ public:
   ino_bool      loop(void);
   
 private:
-  DHT                         m_sensor;
+  SmartDHT                    m_sensor;
   ino_interval                m_rearm_interval;
   ino_u8                      m_rearm_count;
   ino_u8                      m_count;

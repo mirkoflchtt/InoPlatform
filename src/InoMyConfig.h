@@ -5,7 +5,7 @@
 
 #define INO_PLATFORM_MAJOR              (0x1)
 #define INO_PLATFORM_MINOR              (0x8)
-#define INO_PLATFORM_MICRO              (0x1)
+#define INO_PLATFORM_MICRO              (0x2)
 #define INO_PLATFORM_EXTRA              "-A0"
 
 #define INO_HANDLER_TIMER_INTERVAL_MS   (1000)
@@ -18,7 +18,7 @@
 #define MY_INO_BUTTON_TIMEOUT           (1500)    // msec
 #define MY_INO_BUTTON_DEBOUNCE          (100)     // msec
 
-#define MY_INO_SENSOR_UPDATE_TEMPERATURE_INTERVAL (60*5)   // sec
+#define MY_INO_SENSOR_UPDATE_TEMPERATURE_INTERVAL (5 * 60)   // sec
 
 
-#endif    /*INO_MY_CONFIG_H*/
+#endif    /* INO_MY_CONFIG_H */
